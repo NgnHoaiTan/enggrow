@@ -1,0 +1,92 @@
+{
+  "name": "app-client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@fortawesome/fontawesome-svg-core": "^6.2.0",
+    "@fortawesome/free-solid-svg-icons": "^6.2.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@headlessui/react": "^1.7.2",
+    "@mui/material": "^5.10.9",
+    "@reduxjs/toolkit": "^1.8.6",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/dompurify": "^2.3.4",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.11.59",
+    "@types/react": "^18.0.20",
+    "@types/react-datepicker": "^4.4.2",
+    "@types/react-dom": "^18.0.6",
+    "@types/react-slick": "^0.23.10",
+    "@types/redux-persist": "^4.3.1",
+    "@types/slate-react": "^0.50.1",
+    "axios": "^1.1.2",
+    "base-64": "^1.0.0",
+    "dayjs": "^1.11.6",
+    "dompurify": "^2.4.0",
+    "flowbite": "^1.5.3",
+    "flowbite-react": "^0.1.11",
+    "formik": "^2.2.9",
+    "owlbot-js": "^2.0.3",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^4.3.1",
+    "react-countup": "^6.3.2",
+    "react-datepicker": "^4.8.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.4.0",
+    "react-media-recorder": "^1.6.6",
+    "react-redux": "^8.0.4",
+    "react-responsive": "^9.0.0",
+    "react-router": "^6.4.0",
+    "react-router-dom": "^6.4.0",
+    "react-scripts": "5.0.1",
+    "react-slick": "^0.29.0",
+    "recordrtc": "^5.6.2",
+    "redux": "^4.2.0",
+    "redux-persist": "^6.0.0",
+    "redux-typescript": "^1.2.1",
+    "slate-react": "^0.83.2",
+    "slick-carousel": "^1.8.1",
+    "swiper": "^8.4.2",
+    "typescript": "^4.8.3",
+    "use-count-up": "^3.0.1",
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11",
+    "yup-phone": "^1.3.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@kamona/tailwindcss-perspective": "^0.1.1",
+    "@tailwindcss/line-clamp": "^0.4.2",
+    "@types/base-64": "^1.0.0",
+    "autoprefixer": "^10.4.10",
+    "postcss": "^8.4.16",
+    "tailwindcss": "^3.1.8"
+  }
+}
