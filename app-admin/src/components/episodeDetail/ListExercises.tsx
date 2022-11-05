@@ -1,48 +1,72 @@
 import React from 'react';
-import ExerciseItem from './ExerciseItem';
+import IdentiExerciseItem from './IdentiExerciseItem';
 import NoEpisode from './NoEpisode';
-interface exercise {
+import PronunciExerciseItem from './PronunciExerciseItem';
+interface pronunciation_exercise {
     id: number,
     phrase: string,
-    meaning: string
+    meaning: string,
+    episodeId: number
+}
+interface identification_exercise {
+    id: number,
+    true_word: string
+    false_word: string,
+    episodeId: number
 }
 interface typeProps {
-    exercises: exercise[],
+    pronunciation_exercises: pronunciation_exercise[],
+    identification_exercises: identification_exercise[],
     loadingExercises: boolean
 }
-const ListExercises = (props: any) => {
-    const { exercises, loadingExercises } = props
+const ListExercises = (props: typeProps) => {
+    const { pronunciation_exercises, identification_exercises, loadingExercises } = props
     if (loadingExercises) {
         return (
             <div>
 
             </div>
         )
-    } else if (!exercises) {
+    } else if (!pronunciation_exercises || !identification_exercises) {
         return (
             <div>
-
-            </div>
-        )
-    } else if (exercises.length === 0) {
-        return (
-            <div className='my-20'>
-                <NoEpisode />
+                null
             </div>
         )
     }
     return (
         <div>
-            <div className="flex items-center flex-wrap">
-                {
-                    exercises.map((exercise: any) => {
-                        return (
-                            <React.Fragment key={exercise.id}>
-                                <ExerciseItem exercise={exercise} />
-                            </React.Fragment>
-                        )
-                    })
-                }
+            <div className="flex flex-col ">
+                <div className=''>
+                    <p className='text-xl font-semibold my-3'>Pronunciation Exercises</p>
+                    <div className='flex items-center flex-wrap'>
+                        {
+                            pronunciation_exercises.map((exercise: any) => {
+                                return (
+                                    <React.Fragment key={exercise.id}>
+                                        <PronunciExerciseItem exercise={exercise} />
+                                    </React.Fragment>
+                                )
+                            })
+                        }
+                    </div>
+
+                </div>
+                <div>
+                    <p className='text-xl font-semibold my-3'>Identification Exercises</p>
+                    <div className='flex items-center flex-wrap'>
+                        {
+                            identification_exercises.map((exercise: any) => {
+                                return (
+                                    <React.Fragment key={exercise.id}>
+                                        <IdentiExerciseItem exercise={exercise} />
+                                    </React.Fragment>
+                                )
+                            })
+                        }
+                    </div>
+                </div>
+
             </div>
         </div>
     );

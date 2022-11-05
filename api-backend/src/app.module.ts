@@ -22,25 +22,23 @@ import { StaffProfileModule } from './staff_profile/staff_profile.module';
 import { StaffExperienceModule } from './staff_experience/staff_experience.module';
 import { FolderFlashcardModule } from './folder_flashcard/folder_flashcard.module';
 import { FlashcardModule } from './flashcard/flashcard.module';
-import { LiveCourseModule } from './live_course/live_course.module';
-import { TagModule } from './tag/tag.module';
-import { ReelsModule } from './reels/reels.module';
 import { PronunciationCourseModule} from './pronunciation_course/pronunciation_course.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { UserAchievementModule } from './user_achievement/user_achievement.module';
 import { UserSubscriptionModule } from './user_subscription/user_subscription.module';
-import { MemberCourseModule } from './member_course/member_course.module';
-import { RatingCourseModule } from './rating_course/rating_course.module';
-import { RatingTeacherModule } from './rating_teacher/rating_teacher.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
 import { AuthController } from './auth/auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { EpisodeModule } from './episode/episode.module';
-import { ExerciseService } from './exercise/exercise.service';
-import { ExerciseModule } from './exercise/exercise.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { PronunciationExerciseService } from './pronunciation_exercise/pronunciation_exercise.service';
+import { PronunciationExerciseModule } from './pronunciation_exercise/pronunciation_exercise.module';
+import { IdentificationExerciseService } from './identification_exercise/identification_exercise.service';
+import { IdentificationExerciseModule } from './identification_exercise/identification_exercise.module';
+import { PronunciationExerciseController } from './pronunciation_exercise/pronunciation_exercise.controller';
+import { IdentificationExerciseController } from './identification_exercise/identification_exercise.controller';
 
 
 
@@ -90,22 +88,17 @@ config();
     StaffExperienceModule,
     FolderFlashcardModule,
     FlashcardModule,
-    LiveCourseModule,
-    TagModule,
-    ReelsModule,
     PronunciationCourseModule,
     TransactionModule,
     UserAchievementModule,
     UserSubscriptionModule,
-    MemberCourseModule,
-    RatingCourseModule,
-    RatingTeacherModule,
     AuthModule,
     EpisodeModule,
-    ExerciseModule,
     CloudinaryModule,
+    PronunciationExerciseModule,
+    IdentificationExerciseModule,
   ],
-  controllers: [UserController, RoleController, StaffProfileController, AuthController],
-  providers: [UserService, RoleService, AuthService, ExerciseService],
+  controllers: [UserController, RoleController, StaffProfileController, AuthController, PronunciationExerciseController, IdentificationExerciseController],
+  providers: [UserService, RoleService, AuthService,PronunciationExerciseService, IdentificationExerciseService],
 })
 export class AppModule { }

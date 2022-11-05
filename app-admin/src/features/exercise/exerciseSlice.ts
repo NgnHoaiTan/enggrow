@@ -1,18 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { asyncGetAllExercisesByEpisode, asyncGetExerciseById } from './exerciseAPIs';
-interface exercise {
+import { asyncGetAllPronunciationExercisesByEpisode, asyncGetPronunciationExerciseById,
+    asyncGetAllIdentificationExercisesByEpisode, asyncGetIdentificationExerciseById
+} from './exerciseAPIs';
+interface pronunciation_exercise {
     id: number,
     phrase: string,
     meaning: string,
     episodeId: number
 }
+interface identification_exercise {
+    id: number,
+    true_word: string
+    false_word: string,
+    episodeId: number
+}
 interface exerciseState {
-    exercises: exercise[] | null,
-    exercise: exercise | null,
+    pronunciation_exercises: pronunciation_exercise[] | null,
+    identification_exercises: identification_exercise[] | null,
+    identification_exercise: identification_exercise | null,
+    pronunciation_exercise: pronunciation_exercise | null
 }
 const initialState: exerciseState = {
-    exercises: null,
-    exercise: null
+    pronunciation_exercises: null,
+    pronunciation_exercise: null,
+    identification_exercises: null,
+    identification_exercise: null
 }
 const exerciseSlice = createSlice({
     name:'exercise',
@@ -20,20 +32,33 @@ const exerciseSlice = createSlice({
     reducers:{},
     extraReducers: (builder) => {
         builder
-            .addCase(asyncGetAllExercisesByEpisode.fulfilled,(state, action)=>{
+            .addCase(asyncGetAllPronunciationExercisesByEpisode.fulfilled,(state, action)=>{
                 return {
                     ...state,
-                    exercises: action.payload
+                    pronunciation_exercises: action.payload
                 }
             })
-            .addCase(asyncGetExerciseById.fulfilled,(state, action)=>{
+            .addCase(asyncGetPronunciationExerciseById.fulfilled,(state, action)=>{
                 return {
                     ...state,
-                    exercise: action.payload
+                    pronunciation_exercise: action.payload
+                }
+            })
+            .addCase(asyncGetAllIdentificationExercisesByEpisode.fulfilled,(state,action)=>{
+                return {
+                    ...state,
+                    identification_exercises: action.payload
+                }
+            })
+            .addCase(asyncGetIdentificationExerciseById.fulfilled,(state,action)=>{
+                return {
+                    ...state,
+                    identification_exercise: action.payload
                 }
             })
     }
 })
-export const getListExercises = (state: any) => state.exercise.exercises
-export const getExercise = (state: any) => state.exercise.exercise
+export const getListPronunciationExercises = (state: any) => state.exercise.pronunciation_exercises
+export const getListIdentificatonExercises = (state: any) => state.exercise.identification_exercises
+
 export default exerciseSlice.reducer;

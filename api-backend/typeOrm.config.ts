@@ -16,19 +16,12 @@ import { Transaction } from './src/transaction/transaction.entity';
 import { UserAchievement } from './src/user_achievement/user_achievement.entity';
 import { UserSubscription } from './src/user_subscription/user_subscription.entity';
 import { PronunciationCourse } from './src/pronunciation_course/pronunciation_course.entity';
-import { LiveCourse } from './src/live_course/live_course.entity';
-import { Tag } from './src/tag/tag.entity';
-import { Reels } from './src/reels/reels.entity';
-import { RatingCourse } from './src/rating_course/rating_course.entity';
-import { RatingTeacher } from './src/rating_teacher/rating_teacher.entity';
-import { MemberCourse } from './src/member_course/member_course.entity';
 import { Episode } from './src/episode/episode.entity';
-import { Exercise } from './src/exercise/exercise.entity';
-import { $npmConfigName1667393045270 } from './migrations/1667393045270-$npm_config_name';
-import { $npmConfigName1667448688054 } from './migrations/1667448688054-$npm_config_name';
-import { $npmConfigName1667449403270 } from './migrations/1667449403270-$npm_config_name';
 import { $npmConfigName1667449606405 } from './migrations/1667449606405-$npm_config_name';
-
+import { PronunciationExercise } from './src/pronunciation_exercise/pronunciation_exercise.entity';
+import { IdentificationExercise } from './src/identification_exercise/identification_exercise.entity';
+import { $npmConfigName1667634672828 } from './migrations/1667634672828-$npm_config_name';
+import {$npmConfigName1667634795859} from './migrations/1667634795859-$npm_config_name'
 
 
 
@@ -45,9 +38,9 @@ export default new DataSource({
    database: configService.get('DBMYSQL_DB'),
    entities: [User, Role, Avatar, StaffProfile, StaffExperience, Notification, SubscriptionPlan, Feedback,
       Achievement, FolderFlashcard, Flashcard, Transaction, UserAchievement, UserSubscription,
-      PronunciationCourse, Episode, Exercise
+      PronunciationCourse, Episode, PronunciationExercise, IdentificationExercise
    ],
    migrations: [
-      $npmConfigName1667449606405
+      $npmConfigName1667634795859
    ],
 });

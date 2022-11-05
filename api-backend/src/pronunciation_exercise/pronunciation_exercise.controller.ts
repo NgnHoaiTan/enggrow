@@ -2,18 +2,19 @@ import { Body, Controller, Delete, Get, HttpStatus, Param, ParseIntPipe, Post, P
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { createExerciseDto } from './dtos/createExercise.dto';
 import { updateExerciseDto } from './dtos/updateExercise.dto';
-import { ExerciseService } from './exercise.service';
+import { PronunciationExerciseService } from './pronunciation_exercise.service';
 
-@Controller('exercise')
-export class ExerciseController {
+
+@Controller('pronunciation_exercise')
+export class PronunciationExerciseController {
     constructor(
-        private readonly exerciseService: ExerciseService
+        private readonly pronunExerciseService: PronunciationExerciseService
     ){}
 
     @Get('getbyepisode/:episodeId')
     async getByEpisode(@Request() req, @Res() response, @Param('episodeId', ParseIntPipe) episodeId: number) {
         try{
-            const exercises = await this.exerciseService.getByEpisode(episodeId) 
+            const exercises = await this.pronunExerciseService.getByEpisode(episodeId) 
             return response.status(200).json(exercises)
         }catch(error){
             if(!error.status){
@@ -26,7 +27,7 @@ export class ExerciseController {
     @Get(':id')
     async getById(@Request() req, @Res() response, @Param('id', ParseIntPipe) id: number) {
         try{
-            const exercise = await this.exerciseService.getExerciseById(id) 
+            const exercise = await this.pronunExerciseService.getExerciseById(id) 
             return response.status(200).json(exercise)
         }catch(error){
             if(!error.status){
@@ -37,9 +38,9 @@ export class ExerciseController {
     }
 
     @Post('')
-    async createEpisode(@Request() req, @Res() response, @Body() data: createExerciseDto) {
+    async createPronunciationExercise(@Request() req, @Res() response, @Body() data: createExerciseDto) {
         try{
-            const result = await this.exerciseService.createExercise(data)
+            const result = await this.pronunExerciseService.createExercise(data)
             return response.status(200).json(result)
         }catch(error){
             if(!error.status){
@@ -50,9 +51,9 @@ export class ExerciseController {
     }
 
     @Put(':id')
-    async updateEpisode(@Request() req, @Res() response, @Body() data: updateExerciseDto, @Param('id', ParseIntPipe) id: number) {
+    async updatePronunciationExercise(@Request() req, @Res() response, @Body() data: updateExerciseDto, @Param('id', ParseIntPipe) id: number) {
         try{
-            const result = await this.exerciseService.updateExercise(data,id)
+            const result = await this.pronunExerciseService.updateExercise(data,id)
             return response.status(200).json(result)
         }catch(error){
             if(!error.status){
@@ -62,9 +63,9 @@ export class ExerciseController {
         }
     }
     @Delete(':id')
-    async deleteEpisode(@Request() req, @Res() response, @Param('id', ParseIntPipe) id: number) {
+    async deletePronunciationExercise(@Request() req, @Res() response, @Param('id', ParseIntPipe) id: number) {
         try{
-            const result = await this.exerciseService.deleteExercise(id)
+            const result = await this.pronunExerciseService.deleteExercise(id)
             return response.status(200).json(result)
         }catch(error){
             if(!error.status){

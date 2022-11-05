@@ -7,6 +7,8 @@ export class createEpisodeDto {
     @IsNotEmpty()
     description: string
 
+    fundamentals?: string
+
     @IsNotEmpty()
     @IsNumber()
     courseId: number

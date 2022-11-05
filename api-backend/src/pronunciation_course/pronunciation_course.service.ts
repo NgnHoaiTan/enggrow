@@ -47,7 +47,7 @@ export class PronunciationCourseService {
         try {
             const course = await this.courseRepository.createQueryBuilder('pronunciation_course')
                 .leftJoinAndSelect('pronunciation_course.episode','episode')
-                .leftJoinAndSelect('episode.exercises','exercises')
+                // .leftJoinAndSelect('episode.exercises','exercises')
                 .where('pronunciation_course.id = :id', { id })
                 .getOne()
             return course

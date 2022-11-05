@@ -7,12 +7,7 @@ import { Avatar } from '../avatar/avatar.entity';
 import { Feedback } from '../feedback/feedback.entity';
 import { UserSubscription } from '../user_subscription/user_subscription.entity';
 import { StaffProfile } from '../staff_profile/staff_profile.entity';
-import { Reels } from '../reels/reels.entity';
-import { LiveCourse } from '../live_course/live_course.entity';
-import { MemberCourse } from '../member_course/member_course.entity';
 import { Notification } from '../notification/notification.entity';
-import { RatingCourse } from '../rating_course/rating_course.entity';
-import { RatingTeacher } from '../rating_teacher/rating_teacher.entity';
 import { PronunciationCourse } from '../pronunciation_course/pronunciation_course.entity';
 @Entity()
 export class User {
@@ -96,18 +91,5 @@ export class User {
   @OneToMany(() => PronunciationCourse, (course) => course.creator, { nullable: true })
   own_pronunciation_course: PronunciationCourse[]
 
-  // @OneToMany(() => Reels, (reels) => reels.creator, { nullable: true })
-  // reels: Reels[]
 
-  // @OneToMany(() => LiveCourse, (livecourse) => livecourse.teacher, { nullable: true })
-  // livecourse: LiveCourse[]
-
-  // @OneToMany(() => MemberCourse, (in_course) => in_course.student, { nullable: true })
-  // in_course: MemberCourse[]
-
-  // @OneToMany(() => RatingCourse, (rating_course) => rating_course.user, { nullable: true })
-  // rating_course: RatingCourse[]
-
-  // @OneToMany(() => RatingTeacher, (rating_teacher) => rating_teacher.user, { nullable: true })
-  // rating_teacher: RatingTeacher[]
 }

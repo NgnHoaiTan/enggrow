@@ -74,7 +74,10 @@ const CourseTool = () => {
                    </button>
                 </div>
             </div>
-            <EditCourse course={course} open={showModelEdit} onClose={handleCloseEditModel}/>
+            {
+                course &&  <EditCourse course={course} open={showModelEdit} onClose={handleCloseEditModel}/>
+            }
+           
         </div>
     );
 };

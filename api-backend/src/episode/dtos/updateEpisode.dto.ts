@@ -7,5 +7,7 @@ export class updateEpisodeDto {
     @IsNotEmpty()
     description: string
 
+    fundamentals?: string
+
     video?: any
 }

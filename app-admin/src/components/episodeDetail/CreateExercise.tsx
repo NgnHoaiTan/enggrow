@@ -1,22 +1,39 @@
 import React, { useState } from 'react';
-import CreateModel from './CreateModel';
+import IdenExCreateModel from './IdenExCreateModel';
+import PronunExCreateModel from './PronunExCreateModel';
 
 const CreateExercise = () => {
-    const [showFormCreate, setShowFormCreate] = useState(false)
-
+    const [showFormCreatePronunEx, setShowFormCreatePronunEx] = useState(false)
+    const [showFormCreateIdenEx,setShowFormCreateIdenEx] = useState(false)
     // function
-    const handleCloseFormCreate = () => {
-        setShowFormCreate(false)
+    const handleCloseFormCreatePronunEx = () => {
+        setShowFormCreatePronunEx(false)
     }
-    
+    const handleCloseFormCreateIdenEx = () => {
+        setShowFormCreateIdenEx(false)
+    }
+
     return (
         <div className='my-5'>
-            <button
-                onClick={() => setShowFormCreate(true)}
-                className='px-3 md:px-4 py-2 md:py-3 text-sm md:text-base rounded-lg font-semibold text-white bg-blue-500'>
-                New exercise
-            </button>
-            <CreateModel showFormCreate={showFormCreate} onClose={handleCloseFormCreate}/>
+            <div className="flex">
+                <div>
+                    <button
+                        onClick={() => setShowFormCreatePronunEx(true)}
+                        className='px-3 md:px-4 py-2 md:py-3 text-sm  rounded-lg font-semibold text-white bg-blue-500'>
+                        New Pronunciation exercise
+                    </button>
+                    <PronunExCreateModel showFormCreate={showFormCreatePronunEx} onClose={handleCloseFormCreatePronunEx} />
+                </div>
+                <div className='ml-3'>
+                    <button
+                        onClick={() => setShowFormCreateIdenEx(true)}
+                        className='px-3 md:px-4 py-2 md:py-3 text-sm rounded-lg font-semibold text-white bg-blue-500'>
+                        New Identification exercise
+                    </button>
+                    <IdenExCreateModel showFormCreate={showFormCreateIdenEx} onClose={handleCloseFormCreateIdenEx} />
+                </div>
+            </div>
+
         </div>
     );
 };

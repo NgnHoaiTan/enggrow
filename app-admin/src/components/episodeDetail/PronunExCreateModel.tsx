@@ -4,16 +4,18 @@ import { useParams } from 'react-router';
 import { AppDispatch } from '../../app/store';
 import { FormSubmitEvent, InputEvent, TextAreaEvent } from '../../events/events';
 import { Modal } from 'flowbite-react/lib/esm/components';
-import { asyncCreateExercise, asyncGetAllExercisesByEpisode } from '../../features/exercise/exerciseAPIs';
+import { asyncCreatePronunciationExercise, asyncGetAllPronunciationExercisesByEpisode } from '../../features/exercise/exerciseAPIs';
 
 interface typeProps {
     showFormCreate: boolean,
-    onClose: ()=>void
+    onClose: () => void
 }
-const CreateModel = (props: typeProps) => {
-    const {showFormCreate, onClose} = props
+
+const PronunExCreateModel = (props: typeProps) => {
+    const { showFormCreate, onClose } = props
     const [inputData, setInputData] = useState({
         phrase: '',
+        meaning: ''
     })
     const [error, setError] = useState('')
     const { episodeId } = useParams()
@@ -40,11 +42,13 @@ const CreateModel = (props: typeProps) => {
                     episodeId: episodeId,
                     accessToken: 'accessToken Test'
                 }
-                await dispatch(asyncCreateExercise(dataSubmit)).unwrap()
-                await dispatch(asyncGetAllExercisesByEpisode(dataGet)).unwrap()
+                await dispatch(asyncCreatePronunciationExercise(dataSubmit)).unwrap()
+                await dispatch(asyncGetAllPronunciationExercisesByEpisode(dataGet)).unwrap()
                 onClose()
-                setInputData(() => ({
-                    phrase: '',
+                setInputData((prev) => ({
+                    ...prev,
+                    phrase:'',
+                    meaning:''
                 }))
             } else {
                 throw new Error('episodeId must be valid')
@@ -65,56 +69,44 @@ const CreateModel = (props: typeProps) => {
                 <Modal.Header />
                 <Modal.Body>
                     <form onSubmit={handleCreateExercise}>
-                        <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-4">Create new Exercise</h3>
+                        <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-4">Create new Pronunciation Exercise</h3>
                         <p className='text-red-500'>{error}</p>
                         <div className="flex ">
                             <div className="mb-3 w-full">
-                                <label htmlFor="phrase" className="form-label inline-block mb-2 text-gray-700">Phrase - word</label>
+                                <label htmlFor="phrase" className="form-label inline-block mb-2 text-gray-700">Phrase</label>
                                 <input
                                     onChange={(e) => handleInputData(e)}
                                     type="text"
                                     required
-                                    className="
-                                    form-control
-                                    block
-                                    w-full
-                                    px-3
-                                    py-1.5
-                                    text-base
-                                    font-normal
-                                    text-gray-700
-                                    bg-white bg-clip-padding
-                                    border border-solid border-gray-300 
-                                    rounded
-                                    transition
-                                    ease-in-out
-                                    m-0
-                                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                                "
-                                    id="sentence"
+                                    className="form-control block w-full px-3 py-1.5 text-base 
+                                        font-normal bg-white bg-clip-padding border border-solid border-gray-300 
+                                        rounded  transition ease-in-out m-0
+                                        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none "
+                                    id="phrase"
                                     name='phrase'
                                     value={inputData.phrase}
-                                    placeholder="Enter sentence or word"
+                                    placeholder="Enter phrase or word"
                                 />
                             </div>
-
                         </div>
-                        {/* <div className="flex ">
+                        <div className="flex ">
                             <div className="mb-3 w-full">
-                                <label htmlFor="meaning" className="form-label inline-block mb-2 text-gray-700">The meaning of sentence</label>
-                                <textarea
+                                <label htmlFor="phrase" className="form-label inline-block mb-2 text-gray-700">Meaning of phrase</label>
+                                <input
+                                    onChange={(e) => handleInputData(e)}
+                                    type="text"
+                                    required
+                                    className="form-control block w-full px-3 py-1.5 text-base 
+                                        font-normal bg-white bg-clip-padding border border-solid border-gray-300 
+                                        rounded  transition ease-in-out m-0
+                                        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none "
+                                    id="meaning"
+                                    name='meaning'
                                     value={inputData.meaning}
-                                    onChange={handleInputData} name="meaning" rows={2}
-                                    className='form-control
-                                        block w-full px-3 py-1.5 text-base font-normal text-gray-700  bg-white bg-clip-padding
-                                        border border-solid border-gray-300  rounded transition
-                                        ease-in-out m-0
-                                        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                                    '>
-                                </textarea>
+                                    placeholder="Enter meaning"
+                                />
                             </div>
-
-                        </div> */}
+                        </div>
                         <div className="flex justify-end mt-2">
                             <button
                                 type='submit'
@@ -132,5 +124,4 @@ const CreateModel = (props: typeProps) => {
         </div>
     );
 };
-
-export default CreateModel;
+export default PronunExCreateModel;

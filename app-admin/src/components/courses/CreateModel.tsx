@@ -73,16 +73,6 @@ const CreateModel = (props: CreateModelProps) => {
         if (e.target.files[0]) {
             const isRightFormat = filesFormats.includes(e.target.files[0].type)
             if (isRightFormat) {
-                // const reader = new FileReader()
-
-                // reader.readAsDataURL(e.target.files[0])
-                // reader.onloadend = (read)=>{
-                //     console.log(read.target!.result)
-                //     setInputData(prevState => ({
-                //         ...prevState,
-                //         ['file']: read.target!.result
-                //     }))
-                // }
                 setInputData(prevState => ({
                     ...prevState,
                     ['file']: e.target.files[0]
@@ -121,7 +111,6 @@ const CreateModel = (props: CreateModelProps) => {
                 data: data,
                 accessToken: 'accessToken Test'
             }
-            console.log(dataSubmit)
             const callApi = await dispatch(asyncCreatePronunCourse(dataSubmit))
             unwrapResult(callApi)
             const dataGetAll = {

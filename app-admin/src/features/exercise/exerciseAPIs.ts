@@ -1,38 +1,75 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import server from "../../apis/server";
 
-interface updateExercise {
+interface pronunciation_exercise {
+    id: number,
     phrase: string,
-    meaning?: string,
-}
-interface createExercise {
-    phrase: string,
-    meaning?: string,
+    meaning: string,
     episodeId: number
 }
-interface createSubmit {
-    data: createExercise,
+interface identification_exercise {
+    id: number,
+    true_word: string
+    false_word: string,
+    audio: any,
+    episodeId: number
+}
+
+
+
+interface createPronunciationExercise {
+    data: {
+        phrase: string,
+        meaning?: string,
+        episodeId: number
+    }
     accessToken: string
 }
-interface updateSubmit {
+interface createIdentificationExercise {
+    data: {
+        true_word: string
+        false_word: string,
+        audio: any,
+        episodeId: number
+    }
+    accessToken: string
+}
+
+interface updatePronunciationExerciseSubmit {
     id: any
-    data: updateExercise
+    data: {
+        phrase: string,
+        meaning?: string,
+        episodeId: number
+    }
     accessToken: string
 }
+interface updateIdentificationExerciseSubmit {
+    id: any
+    data: {
+        true_word: string
+        false_word: string,
+        audio?: any,
+        episodeId: number
+    }
+    accessToken: string
+}
+
 interface deleteSubmit {
     id: any,
     accessToken: string
 }
-interface getDataType {
+interface getbyid {
     id: any,
     accessToken: string
 }
 
-export const asyncCreateExercise = createAsyncThunk('exercise/asyncCreateExercise',
-    async (dataSubmit: createSubmit, { rejectWithValue }) => {
+// pronunciation exercise
+export const asyncCreatePronunciationExercise = createAsyncThunk('exercise/asyncCreatePronunciationExercise',
+    async (dataSubmit: createPronunciationExercise, { rejectWithValue }) => {
         try {
             const { data, accessToken } = dataSubmit
-            const response = await server.post('exercise',
+            const response = await server.post('pronunciation_exercise',
                 data,
                 {
                     headers: {
@@ -50,11 +87,11 @@ export const asyncCreateExercise = createAsyncThunk('exercise/asyncCreateExercis
         }
     }
 )
-export const asyncUpdateExercise = createAsyncThunk('exercise/asyncUpdateExercise',
-    async (dataSubmit: updateSubmit, { rejectWithValue }) => {
+export const asyncUpdatePronunciationExercise = createAsyncThunk('exercise/asyncUpdatePronunciationExercise',
+    async (dataSubmit: updatePronunciationExerciseSubmit, { rejectWithValue }) => {
         try {
             const { id, data, accessToken } = dataSubmit
-            const response = await server.put(`exercise/${id}`,
+            const response = await server.put(`pronunciation_exercise/${id}`,
                 data,
                 {
                     headers: {
@@ -72,11 +109,11 @@ export const asyncUpdateExercise = createAsyncThunk('exercise/asyncUpdateExercis
         }
     }
 )
-export const asyncDeleteExercise = createAsyncThunk('exercise/asyncDeleteExercise',
+export const asyncDeletePronunciationExercise = createAsyncThunk('exercise/asyncDeletePronunciationExercise',
     async (dataSubmit: deleteSubmit, { rejectWithValue }) => {
         try {
             const { id, accessToken } = dataSubmit
-            const response = await server.delete(`exercise/${id}`,
+            const response = await server.delete(`pronunciation_exercise/${id}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -97,11 +134,11 @@ interface getbyepisode {
     episodeId: any,
     accessToken: string
 }
-export const asyncGetAllExercisesByEpisode = createAsyncThunk('exercise/asyncGetAllExercises',
+export const asyncGetAllPronunciationExercisesByEpisode = createAsyncThunk('exercise/asyncGetAllPronunciationExercises',
     async (dataSubmit: getbyepisode, { rejectWithValue }) => {
         try {
-            const {episodeId, accessToken} = dataSubmit
-            const response = await server.get(`exercise/getbyepisode/${episodeId}`,
+            const { episodeId, accessToken } = dataSubmit
+            const response = await server.get(`pronunciation_exercise/getbyepisode/${episodeId}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -119,11 +156,127 @@ export const asyncGetAllExercisesByEpisode = createAsyncThunk('exercise/asyncGet
     }
 )
 
-export const asyncGetExerciseById = createAsyncThunk('exercise/asyncGetExerciseById',
-    async (dataSubmit: getDataType, { rejectWithValue }) => {
+export const asyncGetPronunciationExerciseById = createAsyncThunk('exercise/asyncGetPronunciationExerciseById',
+    async (dataSubmit: getbyid, { rejectWithValue }) => {
         try {
-            const {id, accessToken} = dataSubmit
-            const response = await server.get(`exercise/${id}`,
+            const { id, accessToken } = dataSubmit
+            const response = await server.get(`pronunciation_exercise/${id}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${accessToken}`
+                    }
+                }
+            )
+            return response.data
+        } catch (error: any) {
+            if (!error.response) {
+                throw error
+            }
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+// identification exercise
+
+
+export const asyncCreateIdentificationExercise = createAsyncThunk('exercise/asyncCreateIdentificationExercise',
+    async (dataSubmit: createIdentificationExercise, { rejectWithValue }) => {
+        try {
+            const { data, accessToken } = dataSubmit
+            const response = await server.post('pronunciation_exercise',
+                data,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${accessToken}`
+                    }
+                }
+            )
+            return response.data
+        } catch (error: any) {
+            if (!error.response) {
+                throw error
+            }
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+export const asyncUpdateIdentificationExercise = createAsyncThunk('exercise/asyncUpdateIdentificationExercise',
+    async (dataSubmit: updateIdentificationExerciseSubmit, { rejectWithValue }) => {
+        try {
+            const { id, data, accessToken } = dataSubmit
+            const response = await server.put(`pronunciation_exercise/${id}`,
+                data,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${accessToken}`
+                    }
+                }
+            )
+            return response.data
+        } catch (error: any) {
+            if (!error.response) {
+                throw error
+            }
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+export const asyncDeleteIdentificationExercise = createAsyncThunk('exercise/asyncDeleteIdentificationExercise',
+    async (dataSubmit: deleteSubmit, { rejectWithValue }) => {
+        try {
+            const { id, accessToken } = dataSubmit
+            const response = await server.delete(`pronunciation_exercise/${id}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${accessToken}`
+                    }
+                }
+            )
+            return response.data
+        } catch (error: any) {
+            if (!error.response) {
+                throw error
+            }
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+interface getbyepisode {
+    episodeId: any,
+    accessToken: string
+}
+export const asyncGetAllIdentificationExercisesByEpisode = createAsyncThunk('exercise/asyncGetAllIdentificationExercises',
+    async (dataSubmit: getbyepisode, { rejectWithValue }) => {
+        try {
+            const { episodeId, accessToken } = dataSubmit
+            const response = await server.get(`pronunciation_exercise/getbyepisode/${episodeId}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${accessToken}`
+                    }
+                }
+            )
+            return response.data
+        } catch (error: any) {
+            if (!error.response) {
+                throw error
+            }
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const asyncGetIdentificationExerciseById = createAsyncThunk('exercise/asyncGetIdentificationExerciseById',
+    async (dataSubmit: getbyid, { rejectWithValue }) => {
+        try {
+            const { id, accessToken } = dataSubmit
+            const response = await server.get(`pronunciation_exercise/${id}`,
                 {
                     headers: {
                         "Content-Type": "application/json",

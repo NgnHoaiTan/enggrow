@@ -8,17 +8,17 @@ import { picturePlanet } from '../common/Image';
 import CreateExercise from '../components/episodeDetail/CreateExercise';
 import EpisodeTool from '../components/episodeDetail/EpisodeTool';
 import ListExercises from '../components/episodeDetail/ListExercises';
-import SearchExercise from '../components/episodeDetail/SearchExercise';
 import { asyncGetEpisodeById } from '../features/episode/episodeAPIs';
 import { getEpisode } from '../features/episode/episodeSlice';
-import { asyncGetAllExercisesByEpisode } from '../features/exercise/exerciseAPIs';
-import { getListExercises } from '../features/exercise/exerciseSlice';
+import { asyncGetAllIdentificationExercisesByEpisode, asyncGetAllPronunciationExercisesByEpisode } from '../features/exercise/exerciseAPIs';
+import { getListPronunciationExercises, getListIdentificatonExercises } from '../features/exercise/exerciseSlice';
 const EpisodeDetail = () => {
     const [loadingEpisode, setLoadingEpisode] = useState(true)
     const [loadingExercises, setLoadingExercises] = useState(true)
     const dispatch = useDispatch<AppDispatch>()
     const episode = useAppSelector(getEpisode)
-    const exercises = useAppSelector(getListExercises)
+    const identification_exercises = useAppSelector(getListIdentificatonExercises)
+    const pronunciation_exercises = useAppSelector(getListPronunciationExercises)
     const { episodeId } = useParams()
     useEffect(() => {
         const actionGetEpisode = async () => {
@@ -44,7 +44,8 @@ const EpisodeDetail = () => {
                     episodeId: episodeId,
                     accessToken: 'accessToken'
                 }
-                await dispatch(asyncGetAllExercisesByEpisode(dataGet)).unwrap()
+                await dispatch(asyncGetAllIdentificationExercisesByEpisode(dataGet)).unwrap()
+                await dispatch(asyncGetAllPronunciationExercisesByEpisode(dataGet)).unwrap()
             } catch (error) {
                 console.log(error)
             }
@@ -108,8 +109,11 @@ const EpisodeDetail = () => {
             </div>
             <div className="main-content p-4">
                 <CreateExercise />
-                {/* <SearchExercise /> */}
-                <ListExercises exercises={exercises} loadingExercises={loadingExercises} />
+                <ListExercises 
+                    pronunciation_exercises={pronunciation_exercises}
+                    identification_exercises={identification_exercises}
+                    loadingExercises={loadingExercises} 
+                />
             </div>
         </div>
     );

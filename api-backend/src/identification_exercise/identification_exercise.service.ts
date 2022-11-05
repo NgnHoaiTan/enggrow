@@ -1,23 +1,23 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EpisodeService } from 'src/episode/episode.service';
+import { EpisodeService } from '../episode/episode.service';
 import { Repository } from 'typeorm';
 import { createExerciseDto } from './dtos/createExercise.dto';
 import { updateExerciseDto } from './dtos/updateExercise.dto';
-import { Exercise } from './exercise.entity';
+import { IdentificationExercise } from './identification_exercise.entity';
 
 @Injectable()
-export class ExerciseService {
+export class IdentificationExerciseService {
     constructor(
-        @InjectRepository(Exercise)
-        private exerciseRepository: Repository<Exercise>,
+        @InjectRepository(IdentificationExercise)
+        private exerciseRepository: Repository<IdentificationExercise>,
         private episodeSerive: EpisodeService
     ){}
 
     async getByEpisode(episodeId: number) {
         try {
-            const exercises = await this.exerciseRepository.createQueryBuilder('exercise')
-                    .where('exercise.episodeId = :episodeId',{episodeId})
+            const exercises = await this.exerciseRepository.createQueryBuilder('identification_exercise')
+                    .where('identification_exercise.episodeId = :episodeId',{episodeId})
                     .getMany()
             return exercises
         } catch (error) {
@@ -30,7 +30,7 @@ export class ExerciseService {
     async getExerciseById(exerciseId: number) {
         try {
             const exercise = await this.exerciseRepository.createQueryBuilder('exercise')
-                    .where('exercise.id = :id',{id: exerciseId})
+                    .where('identification_exercise.id = :id',{id: exerciseId})
                     .getOne()
             return exercise
         } catch (error) {
@@ -40,12 +40,12 @@ export class ExerciseService {
             throw new HttpException(error.message, error.status)
         }
     }
-    async createExercise(data: createExerciseDto) {
+    async createIdentificationExercise(data: any) {
         try {
             const episode = await this.episodeSerive.getEpisodeById(data.episodeId)
             if(episode) {
                 const exerciseData = {
-                    phrase: data.phrase,
+
                     episode: episode
                 }
                 const newExercise = await this.exerciseRepository.save(exerciseData)
@@ -61,10 +61,12 @@ export class ExerciseService {
             throw new HttpException(error.message, error.status)
         }
     }
-    async updateExercise(data: updateExerciseDto, id: number) {
+    async updateIdentificationExercise(data: any, id: number) {
         try {
             const exerciseData = {
-                phrase: data.phrase,
+                true_word: data.true_word,
+                false_word: data.false_word,
+
             }
             const newExercise = await this.exerciseRepository.update({id},exerciseData)
             return newExercise
@@ -76,7 +78,7 @@ export class ExerciseService {
             throw new HttpException(error.message, error.status)
         }
     }
-    async deleteExercise(id: number) {
+    async deleteIdentificationExercise(id: number) {
         try {
             const result = await this.exerciseRepository.delete({id})
             return result
