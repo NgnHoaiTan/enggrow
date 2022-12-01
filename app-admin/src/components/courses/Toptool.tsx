@@ -32,10 +32,10 @@ const Toptool = () => {
         <div className='flex justify-start items-center'>
             <div className="btn-add">
                 <button 
-                onClick={()=>setShowFormCreate(true)}
-                className='px-5 py-2 rounded-lg bg-gradient-to-r from-[#8E2DE2] to-[#4A00E0] text-white font-bold hover:'>
+                    onClick={()=>setShowFormCreate(true)}
+                    className='px-5 py-2 rounded-lg bg-gradient-to-r from-[#8E2DE2] to-[#4A00E0] text-white font-bold hover:'>
                     <span className='hidden md:block'>
-                        Add new course
+                        Thêm khóa học
                     </span>
                     <span className='block md:hidden'>
                         <RiAddFill size='20px' color='#fffff' />
@@ -49,7 +49,7 @@ const Toptool = () => {
                     className="flex items-center relative outline-none border-none ring-gray-400 ring-1 focus:ring-violet-600 w-[200px] md:w-[300px] bg-white rounded-lg py-2 pr-3 pl-10 text-sm md:text-base cursor-pointer focus:border-blue-500 border-1">
                     <AiOutlineSearch color='#9f9f9f' size='22px' className='absolute top-1/2 -translate-y-1/2 left-2 cursor-pointer' />
                     <input className="invisible" />
-                    <p className='absolute text-gray-400 text-base top-1/2 -translate-y-1/2'>Search</p>
+                    <p className='absolute text-gray-400 text-base top-1/2 -translate-y-1/2'>Tìm kiếm</p>
                 </div>
 
 

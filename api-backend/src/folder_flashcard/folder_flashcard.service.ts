@@ -24,23 +24,27 @@ export class FolderFlashcardService {
         }
     }
     // get all folders by user
-    async getAllByUser(userId: number): Promise<FolderFlashcard[]> {
+    async getAllByUser(userId: number, query: any): Promise<FolderFlashcard[]> {
         try {
             const user = await this.userService.findUserById(userId)
             if (!user) {
                 throw new BadRequestException('user is invalid')
             }
-            const data = await this.folderRepository
+            const querySQL = await this.folderRepository
                 .createQueryBuilder('folder_flashcard')
-                .leftJoinAndSelect('folder_flashcard.user', 'user')
-                .select(['folder_flashcard.id', 'folder_flashcard.name', 'folder_flashcard.description', 'folder_flashcard.progress',
-                    'folder_flashcard.created_at', 'user.id', 'user.name', 'user.current_avatar'])
+                .leftJoin('folder_flashcard.user', 'user')
+                .leftJoinAndSelect('folder_flashcard.flashcard','flashcard')
+                .addSelect('user.id')
+                .addSelect('user.name')
+                .addSelect('user.current_avatar')
                 .where('folder_flashcard.userId = :userId', { userId: userId })
-                .getRawMany()
+            
+            if(query.filter === 'due') {
+                querySQL.andWhere('flashcard.dueDate <= :date', {date: new Date().toISOString().slice(0, 10)})
+            }
 
+            const data = querySQL.getMany()
             return data
-
-
         }
         catch (err) {
             console.log(err)
@@ -78,7 +82,6 @@ export class FolderFlashcardService {
             if (user) {
                 const newFolder = {
                     name: data.name,
-                    description: data.description,
                     user: user
                 }
                 return await this.folderRepository.save(newFolder)

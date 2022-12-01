@@ -32,6 +32,14 @@ interface getDataType {
 }
 interface getall {
     accessToken: string,
+    query?: {
+        name?:string | null,
+        interested?:boolean | null,
+        level?:string | null
+    }
+}
+interface getmycourses {
+    accessToken: string,
     query?: any
 }
 
@@ -106,7 +114,7 @@ export const asyncGetAllPronunCourses = createAsyncThunk('pronunciation_course/a
         try {
             const { query, accessToken } = dataSubmit
             const response = await server.get(`pronunciation-practice/getall` +
-                `${query ? `${query.name ? `?name=${query.name}` : ''}`
+                `${query ? `?${query.name ?  `name=${query.name}`  : ''}${query.level ? `level=${query.level}` :''}`
                     :
                     ''}`,
                 {
@@ -125,6 +133,56 @@ export const asyncGetAllPronunCourses = createAsyncThunk('pronunciation_course/a
         }
     }
 )
+
+export const asyncGetAllMyPronunCourses = createAsyncThunk('pronunciation_course/asyncGetMyPronunCourses',
+    async (dataSubmit: getmycourses, { rejectWithValue }) => {
+        try {
+            const { accessToken, query } = dataSubmit
+            const response = await server.get(`pronunciation-practice/mycourse`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${accessToken}`
+                    }
+                }
+            )
+            return response.data
+        } catch (error: any) {
+            if (!error.response) {
+                throw error
+            }
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+export const asyncGetReviewMyPronunCourses = createAsyncThunk('pronunciation_course/asyncGetReviewMyPronunCourses',
+    async (dataSubmit: getmycourses, { rejectWithValue }) => {
+        try {
+            const { accessToken, query } = dataSubmit
+            const response = await server.get(`pronunciation-practice/mycourse` +
+                `${query ?
+                    `?${query.quantity ? `quantity=${query.quantity}` : ''}`+
+                    `${query.order ? `&orderBy=${query.order}`:''}`
+                    :
+                    ''
+                }`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${accessToken}`
+                    }
+                }
+            )
+            return response.data
+        } catch (error: any) {
+            if (!error.response) {
+                throw error
+            }
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
 export const asyncGetNewPronunCourses = createAsyncThunk('pronunciation_course/asyncGetNewPronunCourses',
     async (accessToken: string, { rejectWithValue }) => {
         try {
@@ -150,6 +208,69 @@ export const asyncGetPronunCourseById = createAsyncThunk('pronunciation_course/a
         try {
             const { id, accessToken } = dataSubmit
             const response = await server.get(`pronunciation-practice/getbyid/${id}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${accessToken}`
+                    }
+                }
+            )
+            return response.data
+        } catch (error: any) {
+            if (!error.response) {
+                throw error
+            }
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const asyncGetTopInterestedPronunCourse = createAsyncThunk('pronunciation_course/asyncGetTopInterestedPronunCourse',
+    async (accessToken: string, { rejectWithValue }) => {
+        try {
+            const response = await server.get(`pronunciation-practice/top-interested`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${accessToken}`
+                    }
+                }
+            )
+            return response.data
+        } catch (error: any) {
+            if (!error.response) {
+                throw error
+            }
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const asyncGetLessInterestedPronunCourse = createAsyncThunk('pronunciation_course/asyncGetLessInterestedPronunCourse',
+    async (accessToken: string, { rejectWithValue }) => {
+        try {
+            const response = await server.get(`pronunciation-practice/less-interested`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${accessToken}`
+                    }
+                }
+            )
+            return response.data
+        } catch (error: any) {
+            if (!error.response) {
+                throw error
+            }
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const asyncStatisticTrendingLevel = createAsyncThunk('pronunciation_course/asyncStatisticTrendingLevel',
+    async (accessToken: string, { rejectWithValue }) => {
+        try {
+            const response = await server.get(`pronunciation-practice/trending/level`,
                 {
                     headers: {
                         "Content-Type": "application/json",

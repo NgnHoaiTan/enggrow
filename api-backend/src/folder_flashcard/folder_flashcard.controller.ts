@@ -22,11 +22,11 @@ export class FolderFlashcardController {
 
     @UseGuards(JwtAuthGuard)
     @Get('all/user/:userId')
-    async getAllByUser(@Request() req, @Res() response, @Param('userId', ParseIntPipe) userId: number) {
+    async getAllByUser(@Request() req, @Res() response, @Param('userId', ParseIntPipe) userId: number, @Query() query) {
         try {
             const user = await this.userService.findUserById(req.user.userId)
             if (user) {
-                const result = await this.folderService.getAllByUser(userId)
+                const result = await this.folderService.getAllByUser(userId, query)
                 return response.status(HttpStatus.OK).json(result)
             } else {
                 throw new UnauthorizedException('Unauthorize')

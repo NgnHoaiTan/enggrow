@@ -26,7 +26,7 @@ const SearchModel = (props: searchModelProps) => {
                         
                             value={props.searchTerm}
                             onChange={(e) => props.handleSearchTermChange(e)}
-                            type="text" name='search' placeholder='type name to search' autoComplete='off' className='outline-none border-none focus:border-none focus:outline-none focus:ring-transparent w-full bg-white rounded-lg py-1 pr-3 pl-10' />
+                            type="text" name='search' placeholder='nhập tên thư mục' autoComplete='off' className='outline-none border-none focus:border-none focus:outline-none focus:ring-transparent w-full bg-white rounded-lg py-1 pr-3 pl-10' />
                     </div>
                 </Modal.Header>
                 <Modal.Body>

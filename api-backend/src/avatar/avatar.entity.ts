@@ -5,8 +5,11 @@ export class Avatar {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({nullable: false})
-    link_image: string;
+    @Column({nullable: false,length:120})
+    image_url: string;
+
+    @Column({nullable: false,length:60})
+    image_id: string;
 
     @CreateDateColumn()
     created_at: Date;

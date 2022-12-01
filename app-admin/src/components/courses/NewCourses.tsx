@@ -23,11 +23,18 @@ const NewCourses = (props: ListNewCoursesProps) => {
             </div>
         )
     }
+    else if(newCourses.length === 0) {
+        return (
+            <div>
+                
+            </div>
+        )
+    }
     return (
         <div>
-            <h1 className='font-bold text-xl mb-5'>New course</h1>
+            <h1 className='font-bold text-xl mb-5'>Những khóa học mới nhất</h1>
             <div className="list-new-course">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-8">
+                <div className="grid xl:grid-cols-4 sm:grid-cols-3 grid-cols-1 gap-5">
                 {
                         newCourses.map((course: any) => {
                             return (

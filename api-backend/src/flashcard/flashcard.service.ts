@@ -1,4 +1,4 @@
-import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException, UnauthorizedException} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { supermemo, SuperMemoItem, SuperMemoGrade } from 'supermemo'
 import * as dayjs from 'dayjs'
@@ -17,6 +17,7 @@ export class FlashcardService {
         @InjectRepository(Flashcard)
         private flashcardRepository: Repository<Flashcard>,
         private folderService: FolderFlashcardService,
+        private userService: UserService
     ) { }
 
     async getAll(folderId: number): Promise<Flashcard[]> {
@@ -34,6 +35,7 @@ export class FlashcardService {
             throw new Error(err)
         }
     }
+    
 
     async createCard(data: createCardDto): Promise<Flashcard> {
         try {
@@ -81,7 +83,7 @@ export class FlashcardService {
 
     }
 
-    async getPracticeCards(folderId: number): Promise<Flashcard[]> {
+    async getLearningCards(folderId: number): Promise<Flashcard[]> {
         try {
             const flashcards = await this.flashcardRepository.createQueryBuilder('flashcard')
                 .where('flashcard.folderFlashcardId = :folderId', { folderId: folderId })
@@ -100,16 +102,21 @@ export class FlashcardService {
     // get next test card
 
 
-    async practice(grade: any, id: number): Promise<any> {
+    async learning(grade: any, id: number): Promise<any> {
         try {
             const flashcard = await this.getById(id)
-            const { interval, repetition, efactor } = supermemo(flashcard, grade)
-            // const dueDate = dayjs(Date.now()).add(interval, 'day').toISOString().slice(0, 10)
+            let item: SuperMemoItem = {
+                interval: flashcard.interval,
+                repetition: flashcard.repetition,
+                efactor: parseFloat((flashcard.efactor).toString())
+              };
+            const result = supermemo(item, grade)
+            const dueDate = dayjs(Date.now()).add(result.interval, 'day').toISOString().slice(0, 10)
             const newData = {
-                interval: interval,
-                repetition: repetition,
-                efactor: efactor,
-                // dueDate: dueDate,
+                interval: result.interval,
+                repetition: result.repetition,
+                efactor: result.efactor,
+                dueDate: dueDate,
                 type: cardType.learning
             }
             return await this.flashcardRepository.update({ id }, newData)

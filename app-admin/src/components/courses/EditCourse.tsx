@@ -10,28 +10,35 @@ import { asyncGetPronunCourseById, asyncUpdatePronunCourse } from '../../feature
 import { unwrapResult } from '@reduxjs/toolkit';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useAppSelector } from '../../app/hooks';
+import { getCurrentToken } from '../../features/authentication/authSlice';
 
 const LevelOptions = [
     {
         id: 1,
-        name: 'All Level',
+        name: 'Mọi trình độ',
         value: 'all',
 
     },
     {
         id: 2,
-        name: 'Intermediate Level',
+        name: 'Sơ cấp',
+        value: 'beginner'
+    },
+    {
+        id: 3,
+        name: 'Trung cấp',
         value: 'intermediate',
 
     },
     {
-        id: 3,
-        name: 'Upper Intermediate Level',
+        id: 4,
+        name: 'Trên trung cấp',
         value: 'upper intermediate',
     },
     {
-        id: 4,
-        name: 'Advanced Level',
+        id: 5,
+        name: 'Nâng cao',
         value: 'advanced',
     },
 
@@ -51,7 +58,7 @@ interface PropsType {
 }
 const EditCourse = (props: PropsType) => {
     const { open, onClose, course } = props
-    const [selected, setSelected] = useState(LevelOptions[0])
+    const [selected, setSelected] = useState(LevelOptions.find((level: any) => level.name == course.level) || LevelOptions[0])
     const [error, setError] = useState('')
     const [errorFile, setErrorFile] = useState('')
     const [inputData, setInputData] = useState({
@@ -60,14 +67,17 @@ const EditCourse = (props: PropsType) => {
         level: '',
         file: ''
     })
+    const accessToken = useAppSelector(getCurrentToken)
+
     useEffect(() => {
         setInputData(() => ({
             name: course.name,
             description: course.description,
             level: course.level,
-            file:''
+            file: ''
         }))
     }, [course])
+ 
     const dispatch = useDispatch<AppDispatch>()
     const { courseId } = useParams()
 
@@ -94,7 +104,7 @@ const EditCourse = (props: PropsType) => {
                     ['file']: e.target.files[0]
                 }))
             } else {
-                setErrorFile(`${e.target.files[0].type} is not supported, just accept jpg or png`)
+                setErrorFile(`${e.target.files[0].type} không được hỗ trợ`)
             }
         }
     }
@@ -118,11 +128,11 @@ const EditCourse = (props: PropsType) => {
             const dataUpdate = {
                 id: courseId,
                 data: inputData,
-                accessToken: 'accessToken'
+                accessToken: accessToken
             }
             const dataGet = {
                 id: courseId,
-                accessToken: 'accessToken'
+                accessToken: accessToken
             }
             const updateResult = await dispatch(asyncUpdatePronunCourse(dataUpdate))
             unwrapResult(updateResult)
@@ -147,11 +157,11 @@ const EditCourse = (props: PropsType) => {
                     <Modal.Header />
                     <Modal.Body>
                         <form onSubmit={handleUpdateCourse}>
-                            <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-4">Create new Course</h3>
+                            <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-4">Cập nhật khóa học</h3>
                             <p className='text-red-500'>{error}</p>
                             <div className="flex ">
                                 <div className="mb-3 w-full">
-                                    <label htmlFor="name" className="form-label inline-block mb-2 text-gray-700">Name of Course</label>
+                                    <label htmlFor="name" className="form-label inline-block mb-2 text-gray-700">Tên khóa học</label>
                                     <input
                                         onChange={(e) => handleInputData(e)}
                                         type="text"
@@ -176,21 +186,21 @@ const EditCourse = (props: PropsType) => {
                                         id="name course"
                                         name='name'
                                         value={inputData.name}
-                                        placeholder="Enter name of course"
+                        
                                     />
                                 </div>
 
                             </div>
                             <div className="flex ">
                                 <div className="mb-3 w-full">
-                                    <label htmlFor="description" className="form-label inline-block mb-2 text-gray-700">Description of Course</label>
+                                    <label htmlFor="description" className="form-label inline-block mb-2 text-gray-700">Mô tả khóa học</label>
                                     <div className="text-base max-h-[300px] overflow-y-auto">
                                         <ReactQuill theme="snow" value={inputData.description} onChange={handleInputTextEditor} />
                                     </div>
                                 </div>
 
                             </div>
-                            <label htmlFor="file" className="form-label inline-block mb-2 text-gray-700">Poster upload</label>
+                            <label htmlFor="file" className="form-label inline-block mb-2 text-gray-700">Ảnh khóa học</label>
                         <label className="block mb-3">
                             <span className="sr-only">Choose poster</span>
                             <input type="file"
@@ -213,7 +223,7 @@ const EditCourse = (props: PropsType) => {
                             <Listbox value={selected} onChange={(value) => handleSelectLevel(value)}>
                                 {({ open }) => (
                                     <>
-                                        <Listbox.Label className="block mb-2 text-gray-700">Level</Listbox.Label>
+                                        <Listbox.Label className="block mb-2 text-gray-700">Trình độ</Listbox.Label>
                                         <div className="relative mt-1">
                                             <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
                                                 <span className="flex items-center">
@@ -270,7 +280,7 @@ const EditCourse = (props: PropsType) => {
                                     type='submit'
                                     className='bg-blue-600 rounded-lg py-2 px-3 text-white font-semibold text-base
                                     md:text-base'>
-                                    Update
+                                    Cập nhật
                                 </button>
                             </div>
                         </form>

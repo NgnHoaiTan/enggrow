@@ -23,15 +23,15 @@ const LoginForm = () => {
     }
     const handleLogin =async(e: FormSubmitEvent) => {
         e.preventDefault()
+        setErrorLogin('')
         try{
-            console.log(dataLogin)
             await dispatch(asyncLogin(dataLogin)).unwrap()
             navigate('/')
         }catch(error: AxiosError | any){
             if(error.message) {
                 setErrorLogin(error.message)
             }
-            console.log(error)
+            
         }
     }
     return (
@@ -44,14 +44,15 @@ const LoginForm = () => {
                     />
                 </div>
 
-                <h1 className='font-bold mt-3 text-2xl md:text-3xl xl:text-3xl mb-5 text-center'>Login</h1>
+                <h1 className='font-bold mt-3 text-2xl md:text-3xl xl:text-3xl mb-5 text-center'>Đăng nhập</h1>
             </div>
 
             <form 
             onSubmit={handleLogin}
             className='flex flex-col justify-between p-3'>
+                <p className='text-red-500 text-center mb-2'>{errorLogin}</p>
                 <div>
-                    <input required type="text" name='username' placeholder='username'
+                    <input required type="text" name='username' placeholder='tên đăng nhập'
                         className='p-3 my-3 w-full border-[1px] rounded-lg outline-none focus:ring-2 focus:ring-violet-700'
                         onChange={handleInput}
                     />
@@ -59,7 +60,7 @@ const LoginForm = () => {
                         required
                         onChange={handleInput}
                         className='p-3 my-3 w-full border-[1px] rounded-lg outline-none focus:ring-2 focus:ring-violet-700'
-                        type="password" name="password" id="password" placeholder='password' />
+                        type="password" name="password" id="password" placeholder='mật khẩu' />
 
                 </div>
 
@@ -67,7 +68,7 @@ const LoginForm = () => {
                     className='bg-gradient-to-r from-[#3494E6] to-[#EC6EAD]
                     px-3 py-4 rounded-xl text-white font-bold my-3 flex items-center justify-center'
                 >
-                    <BsFillArrowRightCircleFill color='white' size="20px" className='mr-2' /> Continue
+                    <BsFillArrowRightCircleFill color='white' size="20px" className='mr-2' /> Tiếp tục
                 </button>
             </form>
 

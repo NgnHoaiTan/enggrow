@@ -22,38 +22,12 @@ export class AuthService {
 
     async validateUser(username: string, password: string): Promise<any> {
         const user = await this.userService.findByUsername(username)
-        console.log(user)
         if (user && this.comparePassword(password, user.password)) {
             const { password, ...result } = user;
             return result
         }
         return null
     }
-
-    // async validateGoogleUser(data: { email: string, displayName: string, email_verified: boolean, picture: string,id:string }) {
-
-    //     let user = await this.userService.findByGoogleId(data.id)
-    //     if(user) {
-    //         return user
-    //     }
-    //     else {
-    //         user = await this.userService.findbyEmail(data.email)
-    //         if(!user) {
-    //             const newuser: GoogleUserDto = {
-    //                 googleId: data.id,
-    //                 name:data.displayName,
-    //                 email:data.email,
-    //                 email_verified:data.email_verified,
-    //                 picture:data.picture
-    //             }
-    //             return await this.userService.signupWithGoogle(newuser)
-    //         }
-    //         throw new ForbiddenException(
-    //             "Email is already in use"
-    //         );
-    //     }
-
-    // }
 
     async login(user: any) {
         const payload = { username: user.username, sub: user.id };

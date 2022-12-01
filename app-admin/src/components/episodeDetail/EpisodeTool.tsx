@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../app/store';
 import { useNavigate, useParams } from 'react-router';
 import { asyncDeleteEpisode, asyncGetAllEpisodesByCourse } from '../../features/episode/episodeAPIs';
+import { getCurrentToken } from '../../features/authentication/authSlice';
 
 const EpisodeTool = () => {
     const [showFormEdit, setShowFormEdit] = useState(false)
@@ -19,19 +20,20 @@ const EpisodeTool = () => {
     const handleCloseFormEdit = () => {
         setShowFormEdit(false)
     }
+    const accessToken = useAppSelector(getCurrentToken)
     const { episodeId } = useParams()
     const handleConfirmDelete = () => {
         confirmAlert({
 
-            title: 'Confirm to Delete',
-            message: 'Are you sure to do this.',
+            title: 'Xác nhận xóa bài học',
+            message: 'Vui lòng xác nhận',
             buttons: [
                 {
-                    label: 'Yes',
+                    label: 'Xác nhận',
                     onClick: () => handleDeleteEpisode()
                 },
                 {
-                    label: 'No',
+                    label: 'Hủy',
                 }
             ],
             closeOnEscape: true,
@@ -45,12 +47,12 @@ const EpisodeTool = () => {
             if (courseId) {
                 const dataSubmit = {
                     id: episodeId,
-                    accessToken: 'accessToken'
+                    accessToken: accessToken
                 }
                 await dispatch(asyncDeleteEpisode(dataSubmit)).unwrap()
                 const dataGet = {
                     courseId: courseId,
-                    accessToken: 'accessToken',
+                    accessToken: accessToken,
                     query: null
                 }
                 dispatch(asyncGetAllEpisodesByCourse(dataGet)).unwrap()
@@ -73,14 +75,14 @@ const EpisodeTool = () => {
                     <button
                         onClick={() => setShowFormEdit(true)}
                         className='px-4 py-2 rounded-lg bg-green-600 text-white font-semibold'>
-                        Edit
+                        Cập nhật bài học
                     </button>
                 </div>
                 <div className="delete-btn cursor-pointer">
                     <button
                         onClick={handleConfirmDelete}
                         className='px-4 py-2 rounded-lg bg-red-500 text-white font-semibold'>
-                        Remove
+                        Xóa bài học
                     </button>
                 </div>
             </div>

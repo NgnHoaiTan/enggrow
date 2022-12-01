@@ -11,11 +11,11 @@ interface Nav {
 }
 const Redirect: Nav[] = [
     {
-        name:'Login',
+        name:'Đăng nhập',
         url:'/login'
     },
     {
-        name:'Signup',
+        name:'Đăng ký',
         url:'/signup'
     },
 ]
@@ -48,18 +48,21 @@ const Landingpage = () => {
                     <img src={heroImage} alt="hero img" className="rounded-full object-cover bg-transparent mx-auto bg-cover" />
                 </div>
                 <div className='text-center md:text-left md:w-1/2'>
-                    <h1 className='font-bold text-2xl mb-1 md:text-7xl md:mb-4 lg:w-2/3 md:leading-tight'>Boost your
-                        English</h1>
-                    <p className='w-2/3 my-0 mx-auto md:text-left md:mx-0 md:text-2xl md:mb-5'>Make yourself better and connect people around the world</p>
+                    <h1 className='font-bold text-2xl mb-1 md:text-7xl md:mb-4 lg:w-2/3 md:leading-tight'>
+                        Cải thiện kỹ năng tiếng anh của bạn
+                        </h1>
+                    <p className='w-2/3 my-0 mx-auto md:text-left md:mx-0 md:text-2xl md:mb-5'>
+                        Trở nên tốt hơn và kết nối với mọi người trên thế giới
+                    </p>
                     <div className='hidden sm:block'>
-                        <button className='rounded-xl sm:text-xl lg:text-2xl text-white bg-violet-700 py-2 px-7'>Join now</button>
+                        <button className='rounded-xl sm:text-xl lg:text-2xl text-white bg-violet-700 py-2 px-7'>Tham gia ngay</button>
                     </div>
                     <div className='visible sm:invisible flex justify-center items-center mt-3'>
                         <button className='rounded-lg text-white text-16 bg-violet-600 py-1 px-2 mr-2' onClick={()=>navigate('/login')}>
-                            Login
+                            Đăng nhập
                         </button>
                         <button className='rounded-lg text-white text-16 bg-sky-600 py-1 px-2 ml-2'  onClick={()=>navigate('/signup')}>
-                            Signup
+                            Đăng ký
                         </button>
                     </div>
                 </div>
@@ -72,10 +75,12 @@ const Landingpage = () => {
                         <img src={bootsVocab} alt="review" className='w-2/3 mx-auto' />
                     </div>
                     <div className='px-1 w-5/6 mx-auto md:w-1/2 md:px-10 relative'>
-                        <h3 className='text-center text-lg font-bold text-violet-500 mb-2 md:text-left md:text-2xl lg:text-3xl'>Boost your vocabularies with flashcard</h3>
+                        <h3 className='text-center text-lg font-bold text-violet-500 mb-2 md:text-left md:text-2xl lg:text-3xl'>
+                            Cải thiện vốn từ vựng qua Flashcard
+                        </h3>
                         <p className='text-16 text-center md:text-left md:text-lg lg:text-2xl md:font-light'>
-                            By create flashcard and note word, you can learn it any where and any time by connect internet.
-                            This is also a very effective way to test your knowledge, since you'll need to review the cards repeatedly
+                            Tạo những thẻ từ vựng giúp ghi nhớ và cải thiện vốn từ vựng, đồng thời được học với phương pháp lặp lại ngắt quãng. Hệ thống
+                            sẽ tính toán thời gian học tập lần tiếp theo cho bạn một cách khoa học
                         </p>
                         <div className="after:content-[''] after:absolute after:w-10 after:h-10 lg:after:w-28 lg:after:h-28 after:rounded-full after:bg-blue-600 opacity-10 blur-md -z-10">
                         </div>
@@ -88,32 +93,17 @@ const Landingpage = () => {
                         <img src={courseReview} alt="review" className='w-2/3 mx-auto' />
                     </div>
                     <div className='px-1 w-5/6 mx-auto md:w-1/2 md:px-10'>
-                        <h3 className='text-center text-lg font-bold text-violet-500 mb-2 md:text-right md:text-2xl lg:text-3xl'>Take part in online courses</h3>
+                        <h3 className='text-center text-lg font-bold text-violet-500 mb-2 md:text-right md:text-2xl lg:text-3xl'>
+                            Tham gia các khóa học cải thiện kỹ năng nói và phát âm
+                        </h3>
                         <p className='text-16 text-center md:text-right md:text-lg lg:text-2xl md:font-light'>
-                            By create flashcard and note word, you can learn it any where and any time by connect internet.
-                            This is also a very effective way to test your knowledge, since you'll need to review the cards repeatedly
+                            Với hệ thống phân tích và đánh giá phát âm, bạn sẽ được đánh giá phát âm của bản thân khi sử dụng các khóa học
                         </p>
                         <div className="after:content-[''] after:absolute after:-top-20 after:w-14 after:h-14 lg:after:w-36 lg:after:h-36 after:rounded-full after:bg-violet-600 opacity-20 blur-md after:-z-10">
                         </div>
                         <div className="after:content-[''] after:absolute after:right-0 after:w-10 after:h-10 lg:after:w-28 lg:after:h-28 after:rounded-full after:bg-red-600 opacity-10 blur-md -z-10">
                         </div>
                         
-                    </div>
-                </div>
-                <div className='mt-5 sm:mt-14 md:flex sm:items-center sm:justify-center'>
-                    <div className='md:w-1/2'>
-                        <img src={callReview} alt="review" className='w-2/3 mx-auto' />
-                    </div>
-                    <div className='px-1 w-5/6 mx-auto md:w-1/2 md:px-10'>
-                        <h3 className='text-center text-lg font-bold text-violet-500 mb-2 md:text-left md:text-2xl lg:text-3xl'>Online video call with friends</h3>
-                        <p className='text-16 text-center md:text-left md:text-lg lg:text-2xl md:font-light'>
-                            By create flashcard and note word, you can learn it any where and any time by connect internet.
-                            This is also a very effective way to test your knowledge, since you'll need to review the cards repeatedly
-                        </p>
-                        <div className="after:content-[''] after:absolute after:w-10 after:h-10 lg:after:w-28 lg:after:h-28 after:rounded-full after:bg-orange-500 opacity-20 blur-md -z-10">
-                        </div>
-                        <div className="after:content-[''] after:absolute after:right-7 after:-top-20 after:w-14 after:h-14 lg:after:w-36 lg:after:h-36 after:rounded-full after:bg-yellow-600 opacity-20 blur-md after:-z-10">
-                        </div>
                     </div>
                 </div>
             </section>

@@ -3,13 +3,14 @@ import { confirmAlert } from 'react-confirm-alert';
 import { TiDelete } from 'react-icons/ti'
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
+import { useAppSelector } from '../../app/hooks';
 import { AppDispatch } from '../../app/store';
+import { getCurrentToken } from '../../features/authentication/authSlice';
 import { asyncDeletePronunciationExercise, asyncGetAllPronunciationExercisesByEpisode } from '../../features/exercise/exerciseAPIs';
 interface typeProps {
     exercise: {
         id: number,
         phrase: string,
-        meaning: string,
         episodeId: number
     }
 }
@@ -18,18 +19,19 @@ const PronunciExerciseItem = (props: typeProps) => {
     const { exercise } = props
     const { episodeId } = useParams()
     const dispatch = useDispatch<AppDispatch>()
+    const accessToken = useAppSelector(getCurrentToken)
     const handleConfirmDelete = () => {
         confirmAlert({
 
-            title: 'Confirm to Delete',
-            message: 'Are you sure to do this.',
+            title: 'Xác nhận xóa bài tập',
+            message: 'Vui lòng xác nhận.',
             buttons: [
                 {
-                    label: 'Yes',
+                    label: 'Xác nhận',
                     onClick: () => handleDeleteExercise()
                 },
                 {
-                    label: 'No',
+                    label: 'Hủy',
                     //onClick: () => alert('Click No')
                 }
             ],
@@ -41,11 +43,11 @@ const PronunciExerciseItem = (props: typeProps) => {
         try {
             const dataDelete = {
                 id: exercise.id,
-                accessToken: 'accessToken'
+                accessToken:accessToken
             }
             const dataGet = {
                 episodeId: episodeId,
-                accessToken: 'accessToken'
+                accessToken:accessToken
             }
             await dispatch(asyncDeletePronunciationExercise(dataDelete)).unwrap()
             await dispatch(asyncGetAllPronunciationExercisesByEpisode(dataGet)).unwrap()
@@ -54,10 +56,10 @@ const PronunciExerciseItem = (props: typeProps) => {
         }
     }
     return (
-        <div className='bg-[#eaeaea] relative min-w-[120px] text-[#333333] shadow-card py-4 px-5 mr-4 my-2 rounded-lg'>
+        <div className='bg-[#fdfdfd] relative min-w-[100px] text-[#333333] shadow-card py-3 px-4 mr-4 my-2 rounded-lg'>
             <div className=''>
                 <div className="phrase">
-                    <p className='text-center font-bold text-lg lg:text-lg line-clamp-2'>
+                    <p className='text-center font-semibold line-clamp-2'>
                         {exercise.phrase}
                     </p>
                 </div>

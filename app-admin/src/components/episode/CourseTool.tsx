@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../app/store';
 import { asyncDeletePronunCourse, asyncGetAllPronunCourses } from '../../features/pronunciation_course/pronunCourseAPIs';
 import { useNavigate, useParams } from 'react-router';
+import { getCurrentToken } from '../../features/authentication/authSlice';
 
 const CourseTool = () => {
     const [showModelEdit, setShowModelEdit] = useState(false)
@@ -17,19 +18,20 @@ const CourseTool = () => {
     const course = useAppSelector(getCourse)
     const navigate = useNavigate()
     const {courseId} = useParams()
+    const accessToken = useAppSelector(getCurrentToken)
     const dispatch = useDispatch<AppDispatch>()
     const handleConfirmDelete=()=>{
         confirmAlert({
             
-            title: 'Confirm to Delete',
-            message: 'Are you sure to do this.',
+            title: 'Xác nhận xóa khóa học',
+            message: 'Vui lòng xác nhận',
             buttons: [
               {
-                label: 'Yes',
+                label: 'Xác nhận',
                 onClick: () => handleDeleteCourse()
               },
               {
-                label: 'No',
+                label: 'Hủy',
                 //onClick: () => alert('Click No')
               }
             ],
@@ -42,12 +44,11 @@ const CourseTool = () => {
         try{
             const dataSubmit= {
                 id: courseId,
-                accessToken:'accessToken'
+                accessToken:accessToken
             }
             const deleteResult = await dispatch(asyncDeletePronunCourse(dataSubmit)).unwrap()
             const dataGet = {
-                accessToken:'accessToken',
-                query: null
+                accessToken:accessToken
             }
             dispatch(asyncGetAllPronunCourses(dataGet))
             navigate('/management/courses', {replace: true})
@@ -57,20 +58,20 @@ const CourseTool = () => {
         }
     }
     return (
-        <div className='pt-5 pr-5'>
-            <div className="flex flex-row justify-end items-center">
-                <div className="update-btn mr-5 cursor-pointer">
+        <div className='pr-5 mb-2'>
+            <div className="flex flex-row justify-end items-center gap-5">
+                <div className="update-btn  cursor-pointer">
                     <button 
                     onClick={()=>setShowModelEdit(true)}
-                    className='text-sm md:text-base px-4 py-2 rounded-lg bg-green-400 text-white font-semibold'>
-                        Edit
+                    className='text-sm md:text-base px-4 py-1 rounded-xl bg-green-400 text-white font-semibold'>
+                        Cập nhật khóa học
                     </button>
                 </div>
                 <div className="delete-btn cursor-pointer">
                    <button 
                    onClick={handleConfirmDelete}
-                   className='text-sm md:text-base px-4 py-2 rounded-lg bg-red-500 text-white font-semibold'>
-                        Remove
+                   className='text-sm md:text-base px-4 py-1 rounded-xl bg-red-500 text-white font-semibold'>
+                        Xóa khóa học
                    </button>
                 </div>
             </div>

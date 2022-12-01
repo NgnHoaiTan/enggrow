@@ -47,6 +47,14 @@ export class AuthController {
         return response.status(HttpStatus.OK).json(data)
 
     }
+    
+    @UseGuards(LocalAuthGuard)
+    @Post('admin/login')
+    async loginByAdmin(@Req() req, @Res() response) {
+        const data = await this.authService.login(req.user)
+        return response.status(HttpStatus.OK).json(data)
+
+    }
 
     @Post('signup')
     async signup(@Res() response, @Body() data: CreateUserDto) {

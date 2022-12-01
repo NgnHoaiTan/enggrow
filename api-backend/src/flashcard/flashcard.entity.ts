@@ -1,20 +1,20 @@
 import { FolderFlashcard } from '../folder_flashcard/folder_flashcard.entity';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
+import { CardPronunciationResult } from '../card_pronunciation_result/card_pronunciation_result.entity';
+import { CardLearned } from '../card_learned/card_learned.entity';
 @Entity()
 export class Flashcard {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({ nullable: false, length: 100 })
+    @Column({ nullable: false, length: 50 })
     term: string;
 
-    @Column({ nullable: true, length: 100 })
+    @Column('tinytext',{ nullable: true })
     meaning: string;
 
-    @Column({ nullable: true, length: 200 })
+    @Column({ nullable: true, length:100 })
     example: string;
-    // @Column({nullable: true})
-    // image: string
 
     @CreateDateColumn()
     created_at: Date;
@@ -24,7 +24,7 @@ export class Flashcard {
 
     
 
-    //new - learning - due
+    //new - learning
     @Column({default: 0 })
     type: number
 
@@ -44,4 +44,10 @@ export class Flashcard {
 
     @ManyToOne(() => FolderFlashcard, (folder_flashcard) => folder_flashcard.flashcard, { nullable: false, onDelete: 'CASCADE' })
     folder_flashcard: FolderFlashcard
+
+    @OneToMany(()=>CardPronunciationResult, (result) => result.flashcard)
+    card_pronunciation_result: CardPronunciationResult[]
+
+    @OneToMany(()=>CardLearned, (result) => result.flashcard)
+    card_learned: CardLearned[]
 }

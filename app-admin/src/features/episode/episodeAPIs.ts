@@ -4,11 +4,13 @@ import server from "../../apis/server";
 interface updateEpisode {
     name?: string,
     description?: string,
+    fundamentals?: string,
     file?: any
 }
 interface createEpisode {
-    name?: string,
-    description?: string,
+    name: string,
+    description: string,
+    fundamentals?: string,
     file?: any
 }
 interface createSubmit {

@@ -8,29 +8,28 @@ interface pronunciation_exercise {
     meaning: string,
     episodeId: number
 }
-interface identification_exercise {
-    id: number,
-    true_word: string
-    false_word: string,
-    episodeId: number
-}
+// interface identification_exercise {
+//     id: number,
+//     true_word: string
+//     false_word: string,
+//     episodeId: number
+// }
 interface typeProps {
     pronunciation_exercises: pronunciation_exercise[],
-    identification_exercises: identification_exercise[],
     loadingExercises: boolean
 }
 const ListExercises = (props: typeProps) => {
-    const { pronunciation_exercises, identification_exercises, loadingExercises } = props
+    const { pronunciation_exercises, loadingExercises } = props
     if (loadingExercises) {
         return (
             <div>
 
             </div>
         )
-    } else if (!pronunciation_exercises || !identification_exercises) {
+    } else if (!pronunciation_exercises) {
         return (
             <div>
-                null
+                Lỗi xảy ra trong quá trình lấy dữ liệu bài tập
             </div>
         )
     }
@@ -38,7 +37,7 @@ const ListExercises = (props: typeProps) => {
         <div>
             <div className="flex flex-col ">
                 <div className=''>
-                    <p className='text-xl font-semibold my-3'>Pronunciation Exercises</p>
+                    <p className='text-xl font-semibold my-3'>Bài tập phát âm và kỹ năng nói</p>
                     <div className='flex items-center flex-wrap'>
                         {
                             pronunciation_exercises.map((exercise: any) => {
@@ -52,7 +51,7 @@ const ListExercises = (props: typeProps) => {
                     </div>
 
                 </div>
-                <div>
+                {/* <div>
                     <p className='text-xl font-semibold my-3'>Identification Exercises</p>
                     <div className='flex items-center flex-wrap'>
                         {
@@ -65,7 +64,7 @@ const ListExercises = (props: typeProps) => {
                             })
                         }
                     </div>
-                </div>
+                </div> */}
 
             </div>
         </div>

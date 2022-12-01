@@ -7,4 +7,10 @@ export class CreateUserDto extends LoginUserDto {
 
     @IsNotEmpty()
     phone_number: string;
+
+    @IsNotEmpty()
+    username: string
+
+    @IsNotEmpty()
+    password: string
 }

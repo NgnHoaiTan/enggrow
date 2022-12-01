@@ -11,8 +11,10 @@ interface EditTypeProps {
     showFormEdit: boolean,
     onClose: () => void,
     episode: {
+        id: number,
         name: string,
-        description: string
+        description: string,
+        fundamentals: string
     }
 }
 
@@ -21,9 +23,11 @@ const EditEpisode = (props: EditTypeProps) => {
     const [inputData, setInputData] = useState({
         name: '',
         description: '',
+        fundamentals: '',
         file: '',
     })
     const [error, setError] = useState('')
+    const [updating, setUpdating] = useState(false)
     const [errorFile, setErrorFile] = useState('')
     const dispatch = useDispatch<AppDispatch>()
     const { episodeId } = useParams()
@@ -31,7 +35,8 @@ const EditEpisode = (props: EditTypeProps) => {
         setInputData(() => ({
             name: episode.name,
             description: episode.description,
-            file:''
+            fundamentals: episode.fundamentals,
+            file: ''
         }))
     }, [episode])
     const handleInputData = (e: InputEvent | TextAreaEvent) => {
@@ -55,8 +60,13 @@ const EditEpisode = (props: EditTypeProps) => {
             }
         }
     }
+    const handleCloseModel = () => {
+        setUpdating(false)
+        props.onClose()
+    }
     const handleEditEpisode = async (e: FormSubmitEvent) => {
         e.preventDefault()
+        setUpdating(true)
         try {
             if (episodeId && parseInt(episodeId)) {
                 const dataUpdate = {
@@ -70,14 +80,17 @@ const EditEpisode = (props: EditTypeProps) => {
                 }
                 await dispatch(asyncUpdateEpisode(dataUpdate)).unwrap()
                 await dispatch(asyncGetEpisodeById(dataGet))
+                setUpdating(false)
                 onClose()
             } else {
                 throw new Error('episodeId must be valid')
             }
         } catch (error: any) {
-            console.log(error)
+            setUpdating(false)
             if (error.message)
                 setError(error.message)
+            else
+                setError('Unknow error happen')
         }
     }
     return (
@@ -85,17 +98,17 @@ const EditEpisode = (props: EditTypeProps) => {
             <div>
                 <Modal
                     show={props.showFormEdit}
-                    onClose={props.onClose}
+                    onClose={handleCloseModel}
                     popup={true}
                 >
                     <Modal.Header />
                     <Modal.Body>
                         <form onSubmit={handleEditEpisode} encType="multipart/form-data">
-                            <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-4">Create new Episode</h3>
+                            <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-4">Cập nhật bài học</h3>
                             <p className='text-red-500'>{error}</p>
                             <div className="flex ">
                                 <div className="mb-3 w-full">
-                                    <label htmlFor="name" className="form-label inline-block mb-2 text-gray-700">Name of Episode</label>
+                                    <label htmlFor="name" className="form-label inline-block mb-2 text-gray-700">Tên bài học</label>
                                     <input
                                         onChange={(e) => handleInputData(e)}
                                         type="text"
@@ -120,29 +133,42 @@ const EditEpisode = (props: EditTypeProps) => {
                                         id="name episode"
                                         name='name'
                                         value={inputData.name}
-                                        placeholder="Enter name of Episode"
+                                      
                                     />
                                 </div>
 
                             </div>
                             <div className="flex ">
                                 <div className="mb-3 w-full">
-                                    <label htmlFor="description" className="form-label inline-block mb-2 text-gray-700">Description of Episode</label>
+                                    <label htmlFor="description" className="form-label inline-block mb-2 text-gray-700">Mô tả bài học</label>
                                     <textarea
                                         required
                                         value={inputData.description}
                                         onChange={handleInputData} name="description" rows={3}
                                         className='form-control
-                                    block w-full px-3 py-1.5 text-base font-normal text-gray-700  bg-white bg-clip-padding
-                                    border border-solid border-gray-300  rounded transition
-                                    ease-in-out m-0
-                                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                                    '>
+                                            block w-full px-3 py-1.5 text-base font-normal text-gray-700  bg-white bg-clip-padding
+                                            border border-solid border-gray-300  rounded transition
+                                            ease-in-out m-0
+                                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                                            '>
                                     </textarea>
                                 </div>
 
                             </div>
-                            <label htmlFor="file" className="form-label inline-block mb-2 text-gray-700">Video file upload</label>
+                            <div className="flex ">
+                                <div className="mb-3 w-full">
+                                    <label htmlFor="fundamentals" className="form-label inline-block mb-2 text-gray-700">Nội dung kiến thức</label>
+                                    <textarea
+                                        value={inputData.fundamentals}
+                                        onChange={handleInputData} name="fundamentals" rows={3}
+                                        className="  form-control  block  w-full  px-3 py-1.5 text-base
+                                        font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300  rounded transition ease-in-out m-0
+                                        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none">
+                                    </textarea>
+                                </div>
+
+                            </div>
+                            <label htmlFor="file" className="form-label inline-block mb-2 text-gray-700">Video bài học</label>
                             <label className="block mb-3">
                                 <span className="sr-only">Choose video</span>
                                 <input type="file"
@@ -162,12 +188,23 @@ const EditEpisode = (props: EditTypeProps) => {
                                 </p>
                             }
                             <div className="flex justify-end mt-2">
-                                <button
-                                    type='submit'
-                                    className='bg-blue-600 rounded-lg py-2 px-3 text-white font-semibold text-base
-                                    md:text-base'>
-                                    Update
-                                </button>
+                                {
+                                    updating ?
+                                        <button
+                                            type='button'
+                                            className='bg-blue-600 rounded-lg py-2 px-3 text-white font-semibold text-base
+                                            md:text-base'>
+                                            Đang cập nhật
+                                        </button>
+                                        :
+                                        <button
+                                            type='submit'
+                                            className='bg-blue-600 rounded-lg py-2 px-3 text-white font-semibold text-base
+                                                md:text-base'>
+                                            Cập nhật
+                                        </button>
+                                }
+
                             </div>
                         </form>
 

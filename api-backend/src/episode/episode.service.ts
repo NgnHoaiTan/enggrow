@@ -53,9 +53,10 @@ export class EpisodeService {
                 const episodeData = {
                     name: data.name,
                     description: data.description,
+                    fundamentals: data.fundamentals,
                     pronunciation_course: course,
-                    video_url: data.video.path,
-                    video_file_name: data.video.filename
+                    video_url: data.video.secure_url,
+                    video_id: data.video.public_id
                 }
                 const newExercise = await this.episodeRepository.save(episodeData)
                 return newExercise
@@ -76,8 +77,9 @@ export class EpisodeService {
             const episodeData = {
                 name: data.name,
                 description: data.description,
-                video_url: data.video ? data.video.path : oldEpisode.video_url,
-                video_file_name: data.video ? data.video.filename : oldEpisode.video_file_name
+                fundamentals: data.fundamentals,
+                video_url: data.video ? data.video.secure_url : oldEpisode.video_url,
+                video_id: data.video ? data.video.public_id : oldEpisode.video_id
             }
             const newEpisode = await this.episodeRepository.update({ id }, episodeData)
             return newEpisode

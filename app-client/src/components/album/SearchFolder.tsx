@@ -71,7 +71,7 @@ const SearchFolder = () => {
                 className="flex mr-3 lg:mr-5 items-center relative outline-none border-none ring-gray-200 ring-1 focus:ring-gray-400 w-28 md:w-32 bg-white rounded-lg py-1 pr-3 pl-10 text-sm md:text-base cursor-pointer focus:border-blue-500 border-1">
                 <AiOutlineSearch color='#9f9f9f' size='22px' className='absolute top-1/2 -translate-y-1/2 left-2 cursor-pointer' />
                 <input className="invisible" />
-                <p className='absolute text-gray-400 text-sm md:text-base top-1/2 -translate-y-1/2'>Search</p>
+                <p className='absolute text-gray-400 text-sm md:text-base top-1/2 -translate-y-1/2'>Tìm kiếm</p>
             </div>
             <SearchModel searchTerm={searchTerm}  handleSearchTermChange={handleSearchTermChange} showModelSearch={showModelSearch} onClose={onCloseModelSearch} />
         </>

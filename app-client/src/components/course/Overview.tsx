@@ -1,10 +1,15 @@
-import React from 'react';
-import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
-import { BsCalendarDate } from 'react-icons/bs';
-import { SiGoogleclassroom } from 'react-icons/si';
+import React, { useEffect } from 'react';
 import democourse from '../../images/democourse.jpg'
 import DOMPurify from 'dompurify';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '../../app/hooks';
+import { getCheckRegistered} from '../../features/participant/participantSlice';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../app/store';
+import { asyncCheckRegister, asyncCreateParticipant } from '../../features/participant/participantApis';
+import { getCurrentToken } from '../../features/authentication/authSlice';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 interface typeProps {
@@ -19,6 +24,26 @@ interface typeProps {
 }
 const Overview = (props: typeProps) => {
     const { course } = props
+    const registered = useAppSelector(getCheckRegistered)
+    const dispatch = useDispatch<AppDispatch>()
+    const accessToken = useAppSelector(getCurrentToken)
+    
+    useEffect(()=>{
+        const action = async() => {
+            try{
+                let data = {
+                    accessToken: accessToken,
+                    courseId: course.id
+                }
+                await dispatch(asyncCheckRegister(data)).unwrap()
+            }catch(error: any) {
+                console.log(error)
+            }
+        }
+        action()
+    },[course])
+
+    const notify = (message: string) => toast.success(message);
 
     const createMarkup = (html: any) => {
         return {
@@ -26,6 +51,20 @@ const Overview = (props: typeProps) => {
         }
     }
 
+    const handleRegisterCourse = async() => {
+        try{
+            let dataCreate = {
+                accessToken: accessToken,
+                courseId: course.id
+            }
+            await dispatch(asyncCreateParticipant(dataCreate)).unwrap()
+            await dispatch(asyncCheckRegister(dataCreate)).unwrap()
+            notify('Đăng ký thành công!')
+        }catch(error: any) {
+            console.log(error)
+        }
+    }
+    
     return (
         <div id="main-content-course" className=" my-2 lg:my-0 lg:mr-2 w-full lg:w-3/5">
             <div className="image-course w-full md:h-[400px] relative">
@@ -45,16 +84,29 @@ const Overview = (props: typeProps) => {
                 </div>
             </div>
             <div className='flex justify-center cursor-pointer my-4 '>
-                <button
-                    className='rounded-lg px-4 py-3 bg-gradient-to-r from-[#8E2DE2] to-[#4A00E0] font-bold text-white '>
-                    <Link to={`/courses/detail/${course.id}`}>
-                        Start course
-                    </Link>
+                {
+                    registered ?
+                        <button
+                            className='rounded-lg px-4 py-3 bg-gradient-to-r from-[#8E2DE2] to-[#4A00E0] font-bold text-white '>
+                            <Link to={`/courses/detail/${course.id}`}>
+                                Bắt đầu khóa học
+                            </Link>
 
-                </button>
+                        </button>
+                        :
+                        <button
+                            onClick={()=>handleRegisterCourse()}
+                            className='rounded-lg px-4 py-3 bg-gradient-to-r from-[#8E2DE2] to-[#4A00E0] font-bold text-white '>
+                            Đăng ký
+                        </button>
+                }
+
             </div>
-
-
+            <ToastContainer 
+                position="bottom-right"
+                draggable={true}
+                autoClose={5000}  
+            />
         </div>
     );
 };

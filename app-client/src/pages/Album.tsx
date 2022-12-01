@@ -1,6 +1,7 @@
 import { unwrapResult } from '@reduxjs/toolkit';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 import { useAppSelector } from '../app/hooks';
 import { AppDispatch } from '../app/store';
 import ListAlbum from '../components/album/ListAlbum';
@@ -15,14 +16,18 @@ const Album = () => {
     const folderCards = useAppSelector(getFolders)
     const user = useAppSelector(getCurrentUser)
     const accessToken = useAppSelector(getCurrentToken)
-    
+    const [search, setSearch] = useSearchParams();
+
     useEffect(() => {
         const action = async () => {
             setLoadingFolders(true)
             try {
                 const dataSend = {
                     userId: user.id,
-                    accessToken: accessToken
+                    accessToken: accessToken,
+                    query: {
+                        filter: search.get('filter') || 'all'
+                    }
                 }
                 const data = await dispatch(asyncGetMyFolders(dataSend))
                 unwrapResult(data)
@@ -34,10 +39,25 @@ const Album = () => {
 
         }
         action()
-    }, [])
+    }, [search])
+
+    if(loadingFolders) {
+        return (
+            <div>
+
+            </div>
+        )
+    }
+    else if(!folderCards) {
+        return (
+            <div>
+                
+            </div>
+        )
+    }
     return (
-        <div className='mt-[65px] px-5 sm:px-10 lg:px-24 min-h-screen'>
-            <h1 className='sm:text-lg text-base font-semibold mb-2 sm:mb-4'>Thư mục của tôi</h1>
+        <div className='mt-[70px] px-5 sm:px-10 lg:px-24 min-h-screen'>
+            <h1 className='sm:text-lg text-base font-semibold mb-2 sm:mb-4'>Danh sách thư mục từ vựng</h1>
             <Toolbar />
             {
                 !loadingFolders ?

@@ -4,6 +4,7 @@ import {
    BrowserRouter,
    Routes,
    Route,
+   Navigate,
 } from "react-router-dom";
 import Landingpage from './pages/Landingpage';
 import Login from './pages/Login';
@@ -26,6 +27,11 @@ import { useAppSelector } from './app/hooks';
 import { getCurrentToken } from './features/authentication/authSlice';
 import PronunciationFlashcard from './pages/PronunciationFlashcard';
 import OverviewCourse from './pages/OverviewCourse';
+import DetailEpisode from './pages/DetailEpisode';
+import LearningFlashcard from './pages/LearningFlashcard';
+import ResultPronunciationCard from './pages/ResultPronunciationCard';
+import ResultPracticeCard from './pages/ResultPracticeCard';
+import PageNotFound from './pages/PageNotFound';
 function App() {
    const dispatch = useDispatch<AppDispatch>()
    const accessToken = useAppSelector(getCurrentToken)
@@ -42,13 +48,12 @@ function App() {
       }
       return null
    }
-   const sessionSet = async (key: string, value: string, expirationInMin = 200) => {
+   const sessionSet = async (key: string, value: string, expirationInMin = 10) => {
       let expirationDate = new Date(new Date().getTime() + (60000 * expirationInMin))
       let newValue = {
          value: value,
          expirationDate: expirationDate.toISOString()
       }
-      console.log('set again')
       sessionStorage.setItem(key, JSON.stringify(newValue))
       if (accessToken) {
          await dispatch(asyncGetRemindPractice({ accessToken }))
@@ -57,7 +62,6 @@ function App() {
    }
    useEffect(() => {
       const sessionValue = sessionGet('access-website')
-      console.log(sessionValue)
       if (!sessionValue) {
          sessionSet('access-website', 'access-website')
       }
@@ -67,24 +71,31 @@ function App() {
    return (
       <BrowserRouter>
          <Routes>
-            <Route path="/test-audio" element={<Test />} />
-            <Route element={<PrivateRoute />}>
+            {/* <Route path="/test-audio" element={<Test />} /> */}
+            {/* <Route element={<PrivateRoute />}>
                <Route path="/" element={<Layout page={<Home />} />} />
-            </Route>
+            </Route> */}
             {/* folder card */}
+            <Route path="/" element={<Navigate to="/folders" />} />
             <Route path='/folders' element={<PrivateRoute />}>
                <Route index element={<Layout page={<Album />} />} />
                <Route path='flashcard/:folderId' element={<Layout page={<DetailAlbum />} />} />
+               <Route path='flashcard/learning/:folderId' element={<LearningFlashcard />} />
                <Route path='flashcard/practice/:folderId' element={<PracticeFlashcards />} />
-               <Route path='flashcard/pronunciation/:folderId' element={<PronunciationFlashcard/>} />
-               <Route path='flashcard/pronunciation/finished/:folderId' element={<FinishPracticeCard/>} />
-               <Route path='flashcard/practice/finished/:folderId' element={<FinishPracticeCard />} />
+               <Route path='flashcard/pronunciation/:folderId' element={<PronunciationFlashcard />} />
+               <Route path='flashcard/pronunciation/finished/:folderId' element={<ResultPronunciationCard />} />
+               <Route path='flashcard/learning/finished/:folderId' element={<ResultPronunciationCard />} />
+               <Route path='flashcard/practice/finished/:folderId' element={<ResultPracticeCard />} />
             </Route>
             {/* courses */}
             <Route path='/courses' element={<PrivateRoute />}>
                <Route index element={<Layout page={<Course />} />} />
                <Route path='detail/:courseId' element={<Layout page={<DetailCourse />} />} />
                <Route path='overview/:courseId' element={<Layout page={<OverviewCourse />} />} />
+            </Route>
+            <Route path='/episode' element={<PrivateRoute />}>
+               <Route path='detail/:episodeId' element={<Layout page={<DetailEpisode />} />} />
+               <Route path='practice/:episodeId' element={<Layout page={<DetailEpisode />} />} />
             </Route>
             {/* profile user */}
             <Route path='/profile' element={<PrivateRoute />}>
@@ -93,6 +104,8 @@ function App() {
             <Route path="/landingpage" element={<Landingpage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/pagenotfound" element={<PageNotFound />} />
+            <Route path='*' element={<Navigate to="/pagenotfound" />} />
          </Routes>
       </BrowserRouter>
 

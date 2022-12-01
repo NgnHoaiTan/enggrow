@@ -10,6 +10,7 @@ import { FaAngleDown } from 'react-icons/fa';
 import { asyncCreatePronunCourse, asyncGetAllPronunCourses, asyncGetNewPronunCourses } from '../../features/pronunciation_course/pronunCourseAPIs';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { getCurrentToken } from '../../features/authentication/authSlice';
 
 interface CreateModelProps {
     showFormCreate: boolean,
@@ -18,24 +19,29 @@ interface CreateModelProps {
 const LevelOptions = [
     {
         id: 1,
-        name: 'All Level',
+        name: 'Mọi trình độ',
         value: 'all',
 
     },
     {
         id: 2,
-        name: 'Intermediate Level',
+        name: 'Sơ cấp',
+        value: 'beginner'
+    },
+    {
+        id: 3,
+        name: 'Trung cấp',
         value: 'intermediate',
 
     },
     {
-        id: 3,
-        name: 'Upper Intermediate Level',
+        id: 4,
+        name: 'Trên trung cấp',
         value: 'upper intermediate',
     },
     {
-        id: 4,
-        name: 'Advanced Level',
+        id: 5,
+        name: 'Nâng cao',
         value: 'advanced',
     },
 
@@ -61,6 +67,7 @@ const CreateModel = (props: CreateModelProps) => {
     const [error, setError] = useState('')
     const dispatch = useDispatch<AppDispatch>()
     const [errorFile, setErrorFile] = useState('')
+    const accessToken = useAppSelector(getCurrentToken)
     const handleInputData = (e: InputEvent | TextAreaEvent) => {
         setInputData(prevState => ({
             ...prevState,
@@ -80,7 +87,7 @@ const CreateModel = (props: CreateModelProps) => {
 
 
             } else {
-                setErrorFile(`${e.target.files[0].type} is not supported, just accept jpg, png`)
+                setErrorFile(`${e.target.files[0].type} không được hỗ trợ`)
             }
         }
     }
@@ -103,18 +110,17 @@ const CreateModel = (props: CreateModelProps) => {
         setCreating(true)
         setError('')
         try {
-            const data = {
-                ...inputData,
-                creatorId: 7
+            if(inputData.name.length > 70) {
+                throw new Error('Tối đa 70 ký tự')
             }
             const dataSubmit = {
-                data: data,
-                accessToken: 'accessToken Test'
+                data: inputData,
+                accessToken: accessToken
             }
             const callApi = await dispatch(asyncCreatePronunCourse(dataSubmit))
             unwrapResult(callApi)
             const dataGetAll = {
-                accessToken: 'accessToken Test'
+                accessToken: accessToken
             }
             await dispatch(asyncGetAllPronunCourses(dataGetAll))
             await dispatch(asyncGetNewPronunCourses(dataSubmit.accessToken))
@@ -149,11 +155,11 @@ const CreateModel = (props: CreateModelProps) => {
                 <Modal.Header />
                 <Modal.Body>
                     <form onSubmit={handleCreateCourse}>
-                        <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-4">Create new Course</h3>
+                        <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-4">Tạo khóa học</h3>
                         <p className='text-red-500'>{error}</p>
                         <div className="flex ">
                             <div className="mb-3 w-full">
-                                <label htmlFor="name" className="form-label inline-block mb-2 text-gray-700">Name of Course</label>
+                                <label htmlFor="name" className="form-label inline-block mb-2 text-gray-700">Tên khóa học</label>
                                 <input
                                     onChange={(e) => handleInputData(e)}
                                     type="text"
@@ -178,14 +184,14 @@ const CreateModel = (props: CreateModelProps) => {
                                     id="name course"
                                     name='name'
                                     value={inputData.name}
-                                    placeholder="Enter name of course"
+                                    placeholder="nhập tên khóa học"
                                 />
                             </div>
 
                         </div>
                         <div className="flex ">
                             <div className="mb-3 w-full">
-                                <label htmlFor="description" className="form-label inline-block mb-2 text-gray-700">Description of Course</label>
+                                <label htmlFor="description" className="form-label inline-block mb-2 text-gray-700">Mô tả khóa học</label>
 
                                 <div className="max-h-[300px] text-base overflow-y-auto">
                                     <ReactQuill theme="snow" value={inputData.description} onChange={handleInputTextEditor} />
@@ -194,10 +200,11 @@ const CreateModel = (props: CreateModelProps) => {
                             </div>
 
                         </div>
-                        <label htmlFor="file" className="form-label inline-block mb-2 text-gray-700">Poster upload</label>
+                        <label htmlFor="file" className="form-label inline-block mb-2 text-gray-700">Ảnh khóa học</label>
                         <label className="block mb-3">
                             <span className="sr-only">Choose poster</span>
                             <input type="file"
+                                lang='en'
                                 onChange={handleInputFile}
                                 className="block w-full text-sm text-slate-500
                                 file:mr-4 file:py-2 file:px-4
@@ -217,7 +224,7 @@ const CreateModel = (props: CreateModelProps) => {
                         <Listbox value={selected} onChange={(value) => handleSelectLevel(value)}>
                             {({ open }) => (
                                 <>
-                                    <Listbox.Label className="block mb-2 text-gray-700">Level</Listbox.Label>
+                                    <Listbox.Label className="block mb-2 text-gray-700">Trình độ</Listbox.Label>
                                     <div className="relative mt-1">
                                         <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
                                             <span className="flex items-center">
@@ -276,7 +283,7 @@ const CreateModel = (props: CreateModelProps) => {
                                         type='button'
                                         className='bg-blue-600 rounded-lg py-2 px-3 text-white font-semibold text-base
                                         md:text-base'>
-                                        Creating..
+                                        Đang tạo..
                                     </button>
                                     :
 
@@ -284,7 +291,7 @@ const CreateModel = (props: CreateModelProps) => {
                                         type='submit'
                                         className='bg-blue-600 rounded-lg py-2 px-3 text-white font-semibold text-base
                                         md:text-base'>
-                                        Create
+                                        Tạo
                                     </button>
                             }
 

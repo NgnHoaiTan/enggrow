@@ -4,5 +4,6 @@ export class updateExerciseDto {
     @IsNotEmpty()
     phrase: string
     
+    meaning?: string
 
 }

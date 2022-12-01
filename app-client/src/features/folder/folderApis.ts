@@ -2,13 +2,14 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import server from "../../apis/server";
 
 interface updateFolder {
-    name?: string,
-    description?: string
+    name?: string
 }
 interface createFolder {
-    name: string,
-    description: string,
-    userId: number
+    data : {
+        name: string,
+        userId: number
+    },
+    accessToken: string
 }
 interface updateSubmit {
     id: number | string
@@ -20,13 +21,15 @@ interface dataSearch {
     accessToken:string
 }
 
-export const asyncCreateFolder = createAsyncThunk('folder/asyncCreateFolder', async (data: createFolder, { rejectWithValue }) => {
+export const asyncCreateFolder = createAsyncThunk('folder/asyncCreateFolder', async (dataSubmit: createFolder, { rejectWithValue }) => {
     try {
+        const {data, accessToken} = dataSubmit
         const response = await server.post('folder-flashcard/create',
             data,
             {
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`
                 }
             }
 
@@ -84,10 +87,18 @@ export const asyncDeleteFolder = createAsyncThunk('folder/asyncDeleteFolder', as
     }
 })
 
-export const asyncGetMyFolders = createAsyncThunk('folder/asyncGetMyFolders', async (dataSubmit:{userId: any, accessToken: string}, { rejectWithValue }) => {
+interface dataGetMyFolders {
+    userId: any, 
+    accessToken: string,
+    query?: {
+        filter: string | null
+    }
+}
+export const asyncGetMyFolders = createAsyncThunk('folder/asyncGetMyFolders', async (dataSubmit:dataGetMyFolders, { rejectWithValue }) => {
     try {
-        const {userId, accessToken} = dataSubmit
-        const response = await server.get(`folder-flashcard/all/user/${userId}`,
+        const {userId, accessToken, query} = dataSubmit
+        const response = await server.get(`folder-flashcard/all/user/${userId}`+
+        `${query ?  `${query.filter ? `?filter=${query.filter}` :''}`  :  ''}`,
             {
                 headers: {
                     "Content-Type": "application/json",

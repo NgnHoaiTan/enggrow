@@ -40,6 +40,9 @@ export class FlashcardController {
                 throw new UnauthorizedException('User is not valid')
             }
         }catch(error){
+            if (!error.status) {
+                throw new Error(error)
+            }
             return res.status(error.status).json(error)
         }
         
@@ -68,7 +71,9 @@ export class FlashcardController {
 
 
         } catch (error) {
-            console.log(error)
+            if (!error.status) {
+                throw new Error(error)
+            }
             return response.status(error.status).json(error)
         }
 
@@ -87,6 +92,9 @@ export class FlashcardController {
             }
 
         } catch (error) {
+            if (!error.status) {
+                throw new Error(error)
+            }
             return response.status(error.status).json(error)
         }
 
@@ -99,6 +107,9 @@ export class FlashcardController {
             const deleted = await this.flashcardService.deleteCard(id)
             return response.status(HttpStatus.OK).json(deleted)
         } catch (error) {
+            if (!error.status) {
+                throw new Error(error)
+            }
             return response.status(error.status).json(error)
         }
     }
@@ -119,16 +130,16 @@ export class FlashcardController {
           
           console.log(item);
           
-          item = supermemo(item, 4);
+          item = supermemo(item, 5);
           console.log(item);
         return item
     }
 
     // get test cards
-    @Get('practice-cards/folder/:folderId')
-    async getPracticeCards(@Request() req, @Res() response, @Param() data: any): Promise<Flashcard[] | null> {
+    @Get('learning-cards/folder/:folderId')
+    async getLearningCards(@Request() req, @Res() response, @Param() data: any): Promise<Flashcard[] | null> {
         try {
-            const flashcards = await this.flashcardService.getPracticeCards(data.folderId)
+            const flashcards = await this.flashcardService.getLearningCards(data.folderId)
             return response.status(HttpStatus.OK).json(flashcards)
         }catch(error){
             if(!error.status) {
@@ -140,10 +151,10 @@ export class FlashcardController {
     // get next test card
     
     // practice
-    @Put('practice/:id')
-    async practice(@Request() req, @Res() response, @Body() data: any, @Param('id', ParseIntPipe) id: number) {
+    @Put('learning/:id')
+    async learning(@Request() req, @Res() response, @Body() data: any, @Param('id', ParseIntPipe) id: number) {
         try {
-            const flashcard = await this.flashcardService.practice(data.grade, id)
+            const flashcard = await this.flashcardService.learning(data.grade, id)
             return response.status(HttpStatus.OK).json(flashcard)
         }catch(error){
             if(!error.status) {

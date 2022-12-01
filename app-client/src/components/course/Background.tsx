@@ -1,6 +1,4 @@
-import React from 'react';
 import bgcourse from "../../images/bgcourse2.png"
-import { GiWaterRecycling } from 'react-icons/gi'
 import { TbRotateClockwise2 } from 'react-icons/tb'
 import { FiWifi } from 'react-icons/fi'
 import { MdPersonPin } from 'react-icons/md';
@@ -10,9 +8,11 @@ const Background = () => {
             <div className="flex flex-col-reverse sm:flex-row justify-between pt-[56px] pb-[20px] sm:pb-14 md:pt-[60px] items-center">
                 <div className="title-background px-4 sm:px-0 sm:pl-6 md:pl-20 w-full text-center sm:text-left sm:w-3/6">
                     <h2 className='w-full md:w-4/5 leading-tight font-bold md:font-semibold text-xl sm:text-2xl md:text-2xl md:leading-tight lg:text-5xl xl:text-6xl sm:leading-tight lg:leading-snug xl:leading-snug mb-2 sm:mb-4 text-[#444242]'>
-                        English Pronunciation Learning
+                        Khóa học kỹ năng nói
                     </h2>
-                    <p className='text-sm md:text-lg w-full'>Flexible scheduling and self learning make it easier to fit studies into your busy life</p>
+                    <p className='text-sm md:text-lg w-full'>
+                        Lịch trình linh hoạt tự do giúp bạn dễ dàng học tập phù hợp với công việc bận rộn của mình
+                    </p>
                 </div>
                 <div className='sm:w-3/6 relative sm:px-4'>
                     <img src={bgcourse} alt="bgcourse" className='w-full h-full object-cover drop-shadow-sm' />
@@ -27,8 +27,10 @@ const Background = () => {
                             <FiWifi size="100%" color="blue" />
                         </div>
                         <div className='w-full md:w-auto '>
-                            <p className='font-semibold text-base lg:text-lg text-left'>Access Online</p>
-                            <p className='text-sm lg:text-base text-left'>Can study at home or in local libraries or at anywhere with internet</p>
+                            <p className='font-semibold text-base lg:text-lg text-left'>Trực tuyến</p>
+                            <p className='text-sm lg:text-base text-left'>
+                                Có thể học tại nhà hoặc tại các thư viện địa phương hoặc bất cứ nơi nào có internet
+                            </p>
                         </div>
 
                     </div>
@@ -38,8 +40,8 @@ const Background = () => {
                             <TbRotateClockwise2 size="100%" color="blue" />
                         </div>
                         <div className='w-full md:w-auto '>
-                            <p className='font-semibold text-base lg:text-lg text-left'>Flexible Time</p>
-                            <p className='text-sm lg:text-base text-left'>Study when and where suits you, and work at your own pace</p>
+                            <p className='font-semibold text-base lg:text-lg text-left'>Thời gian linh hoạt</p>
+                            <p className='text-sm lg:text-base text-left'>Học bất cứ khi nào và bất cứ ở đâu bạn có thể</p>
                         </div>
 
                     </div>
@@ -49,8 +51,8 @@ const Background = () => {
                             <MdPersonPin size="100%" color="blue" />
                         </div>
                         <div className='w-full md:w-auto '>
-                            <p className='font-semibold text-base lg:text-lg text-left'>Expert's instructor</p>
-                            <p className='text-sm lg:text-base text-left'>Learn a new language with experienced teachers</p>
+                            <p className='font-semibold text-base lg:text-lg text-left'>Đánh giá phát âm</p>
+                            <p className='text-sm lg:text-base text-left'>Hệ thống sẽ giúp phân tích và đánh giá phát âm của bạn</p>
                         </div>
 
                     </div>

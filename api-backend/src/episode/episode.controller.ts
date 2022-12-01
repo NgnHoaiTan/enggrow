@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, ParseIntPipe, Post, Put, Query, Request, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, HttpStatus, Param, ParseIntPipe, Post, Put, Query, Request, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { query } from 'express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -7,6 +7,7 @@ import { updateEpisodeDto } from './dtos/updateEpisode.dto';
 import { EpisodeService } from './episode.service';
 import { storageCloudinary } from '../cloudinary/cloudinary.config'
 
+const { dataUri } = require("../parser_file/parser_file.config");
 const cloudinary = require('cloudinary').v2;
 
 
@@ -49,21 +50,33 @@ export class EpisodeController {
         }
     }
     @Post('')
-    @UseInterceptors(FileInterceptor('file', {
-        storage: storageCloudinary
-    }))
+    @UseInterceptors(FileInterceptor('file'))
     async createEpisode(@Request() req, @Res() response, @Body() rawData: any, @UploadedFile() file: Express.Multer.File) {
+        let fileRes, resultUpload
         try {
-            const data = {
-                name: rawData.name,
-                description: rawData.description,
-                courseId: rawData.courseId,
-                video: req.file
+            if(req.file) {
+                fileRes = await dataUri(req).content;
+                resultUpload = await cloudinary.uploader.upload(fileRes,{
+                    folder:'engrow',
+                    resource_type:'auto'
+                })
+                const data = {
+                    name: rawData.name,
+                    description: rawData.description,
+                    fundamentals: rawData.fundamentals,
+                    courseId: rawData.courseId,
+                    video: resultUpload
+                }
+                const result = await this.episodeService.createEpisode(data)
+                return response.status(200).json(result)
             }
-            const result = await this.episodeService.createEpisode(data)
-            return response.status(200).json(result)
+            else throw new BadRequestException('file is invalid')
+            
 
         } catch (error) {
+            if(resultUpload) {
+                await cloudinary.uploader.destroy(resultUpload.public_id, {invalidate: true, resource_type: "video"})
+            }
             if (!error.status) {
                 throw new Error(error)
             }
@@ -72,15 +85,22 @@ export class EpisodeController {
     }
 
     @Put(':id')
-    @UseInterceptors(FileInterceptor('file', {
-        storage: storageCloudinary
-    }))
+    @UseInterceptors(FileInterceptor('file'))
     async updateEpisode(@Request() req, @Res() response, @Body() rawData: any, @UploadedFile() file: Express.Multer.File, @Param('id', ParseIntPipe) id: number) {
+        let fileRes, resultUpload
         try {
+            if(req.file) {
+                fileRes = await dataUri(req).content;
+                resultUpload = await cloudinary.uploader.upload(fileRes,{
+                    folder:'engrow',
+                    resource_type:'auto'
+                })  
+            }
             const data = {
                 name: rawData.name,
                 description: rawData.description,
-                video: file
+                fundamentals: rawData.fundamentals,
+                video: resultUpload
             }
             const result = await this.episodeService.updateEpisode(data, id)
             return response.status(200).json(result)
@@ -96,14 +116,14 @@ export class EpisodeController {
     async deleteEpisode(@Request() req, @Res() response, @Param('id', ParseIntPipe) id: number) {
         try {
             const episode = await this.episodeService.getEpisodeById(id)
-            const filename = episode.video_file_name
+            let public_id = episode.video_id
             const result = await this.episodeService.deleteEpisode(id)
 
-            // if(filename) {
-            //     await cloudinary.uploader.destroy('engrow/zovxjxviu0hfhgoqewje', function (error, result) {
-            //         console.log(result, error)
-            //     })
-            // }
+            if(public_id) {
+                await cloudinary.uploader.destroy(public_id,{invalidate: true, resource_type: "video"} ,function (error, result) {
+                    console.log(result, error)
+                })
+            }
             return response.status(200).json(result)
         } catch (error) {
             if (!error.status) {

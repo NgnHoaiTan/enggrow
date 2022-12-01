@@ -11,7 +11,7 @@ const CreateEpisode = () => {
             <button 
             onClick={()=>setShowFormCreate(true)}
             className='px-3 md:px-4 py-2 md:py-3 text-sm md:text-base rounded-lg font-semibold text-white bg-blue-500'>
-                New episode
+                Tạo bài học
             </button>
             <CreateModel showFormCreate={showFormCreate} onClose={onCloseFormCreate}/>
         </div>

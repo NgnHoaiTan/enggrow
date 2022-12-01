@@ -18,9 +18,6 @@ const SearchModel = (props: searchModelProps) => {
     const [search, setSearch] = useSearchParams();
     const handleChangeSearchTerm =(e:InputEvent)=>{
         setDataInput(e.target.value)
-        const searchValue = {
-            name: e.target.value
-        }
     }
 
     const handleKeyDownSearch =(e: any) => {
@@ -46,6 +43,7 @@ const SearchModel = (props: searchModelProps) => {
             <Modal
                 show={props.showModelSearch}
                 onClose={props.onClose}
+                className='h-screen'
             >
                 <Modal.Header>
                     <div className='relative w-60 sm:w-96 md:w-[450px] '>
@@ -54,7 +52,7 @@ const SearchModel = (props: searchModelProps) => {
                             onKeyDown={handleKeyDownSearch}
                             value={dataInput}
                             onChange={(e) => handleChangeSearchTerm(e)}
-                            type="text" name='name' placeholder='type name to search' autoComplete='off' className='outline-none border-none focus:border-none focus:outline-none focus:ring-transparent w-full bg-white rounded-lg py-1 pr-3 pl-10' />
+                            type="text" name='name' placeholder='nhập tên tìm kiếm' autoComplete='off' className='outline-none border-none focus:border-none focus:outline-none focus:ring-transparent w-full bg-white rounded-lg py-1 pr-3 pl-10' />
                     </div>
                 </Modal.Header>
                 <Modal.Body>

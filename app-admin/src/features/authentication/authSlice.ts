@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { asyncLogin, asyncLogout, asyncSignup } from './authAPIs';
+import { asyncLogin, asyncLogout} from './authAPIs';
 export interface AuthenticationState {
     user:any,
     token:string | null,
@@ -51,9 +51,6 @@ const authSlice = createSlice({
                 }
             })
             .addCase(asyncLogout.fulfilled, (state, action)=>{
-                console.log(action)
-            })
-            .addCase(asyncSignup.rejected,(state,action) =>{
                 console.log(action)
             })
 

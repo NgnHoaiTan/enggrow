@@ -5,7 +5,7 @@ export class Role {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column('varchar',{length:50})
+    @Column('varchar',{length:20})
     name: string
 
     @OneToMany(()=>User, (user) => user.role)

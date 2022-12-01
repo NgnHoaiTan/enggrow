@@ -10,7 +10,7 @@ import { PronunciationExerciseService } from './pronunciation_exercise.service';
     TypeOrmModule.forFeature([PronunciationExercise]),
     EpisodeModule
   ],
-  exports:[TypeOrmModule],
+  exports:[TypeOrmModule, PronunciationExerciseService],
   providers:[PronunciationExerciseService],
   controllers: [PronunciationExerciseController]
 })

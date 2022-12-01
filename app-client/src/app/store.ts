@@ -17,6 +17,12 @@ import flashcardReducer from '../features/flashcard/flashcardSlice';
 import episodeReducer from '../features/episode/episodeSlice';
 import exerciseReducer from '../features/exercise/exerciseSlice';
 import pronunCourseReducer from '../features/pronunciation_course/pronunCourseSlice';
+import resultPronounceExerciseReducer from '../features/resultPronounceExercise/resultPronounceExerciseSlice';
+import participantReducer from '../features/participant/participantSlice';
+import pronunciationCardResultReducer from '../features/pronunciation_card_result/pronunciationCardResultSlice';
+import cardLearnedReducer from '../features/card_learned/cardLearnedSlice';
+import practiceFlashcardReducer from '../features/practice_flashcard/practiceFlashcardSlice';
+import profileReducer from '../features/profile/profileSlice';
 
 const persistConfig = {
   key: 'root',
@@ -32,6 +38,12 @@ const reducers = combineReducers({
   episode: episodeReducer,
   exercise: exerciseReducer,
   pronunciation_course: pronunCourseReducer,
+  result_pronunciation: resultPronounceExerciseReducer,
+  participant: participantReducer,
+  pronunciation_card_result: pronunciationCardResultReducer,
+  card_learned: cardLearnedReducer,
+  practice_flashcard: practiceFlashcardReducer,
+  profile: profileReducer
 })
 
 const persistedReducers = persistReducer(persistConfig, reducers)

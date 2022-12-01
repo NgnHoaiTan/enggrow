@@ -2,7 +2,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import typeOrmConfig from '../typeOrm.config';
 import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
 import { DataSource } from 'typeorm';
@@ -13,19 +12,12 @@ import { RoleController } from './role/role.controller';
 import { RoleService } from './role/role.service';
 import { RoleModule } from './role/role.module';
 import { AvatarModule } from './avatar/avatar.module';
-import { NotificationModule } from './notification/notification.module';
-import { SubscriptionPlanModule } from './subscription_plan/subscription_plan.module';
-import { FeedbackModule } from './feedback/feedback.module';
-import { AchievementModule } from './achievement/achievement.module';
 import { StaffProfileController } from './staff_profile/staff_profile.controller';
 import { StaffProfileModule } from './staff_profile/staff_profile.module';
 import { StaffExperienceModule } from './staff_experience/staff_experience.module';
 import { FolderFlashcardModule } from './folder_flashcard/folder_flashcard.module';
 import { FlashcardModule } from './flashcard/flashcard.module';
 import { PronunciationCourseModule} from './pronunciation_course/pronunciation_course.module';
-import { TransactionModule } from './transaction/transaction.module';
-import { UserAchievementModule } from './user_achievement/user_achievement.module';
-import { UserSubscriptionModule } from './user_subscription/user_subscription.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
 import { AuthController } from './auth/auth.controller';
@@ -39,6 +31,17 @@ import { IdentificationExerciseService } from './identification_exercise/identif
 import { IdentificationExerciseModule } from './identification_exercise/identification_exercise.module';
 import { PronunciationExerciseController } from './pronunciation_exercise/pronunciation_exercise.controller';
 import { IdentificationExerciseController } from './identification_exercise/identification_exercise.controller';
+import { ResultPronunciationExerciseModule } from './result_pronunciation_exercise/result_pronunciation_exercise.module';
+import { PhoneAssessmentModule } from './phone_assessment/phone_assessment.module';
+import { CardPronunciationResultModule } from './card_pronunciation_result/card_pronunciation_result.module';
+import { CardLearnedModule } from './card_learned/card_learned.module';
+import { WordAssessmentModule } from './word_assessment/word_assessment.module';
+import { ParticipantInCourseModule } from './participant_in_course/participant_in_course.module';
+import { StaffManagementModule } from './staff_management/staff_management.module';
+import { UserManagementModule } from './user_management/user_management.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { BackupModule } from './backup/backup.module';
+import { BackupController } from './backup/backup.controller';
 
 
 
@@ -55,6 +58,7 @@ config();
         isGlobal: true
       }
     ),
+    ScheduleModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -80,25 +84,26 @@ config();
     UserModule,
     RoleModule,
     AvatarModule,
-    NotificationModule,
-    SubscriptionPlanModule,
-    FeedbackModule,
-    AchievementModule,
     StaffProfileModule,
     StaffExperienceModule,
     FolderFlashcardModule,
     FlashcardModule,
     PronunciationCourseModule,
-    TransactionModule,
-    UserAchievementModule,
-    UserSubscriptionModule,
     AuthModule,
     EpisodeModule,
     CloudinaryModule,
     PronunciationExerciseModule,
-    IdentificationExerciseModule,
+    ResultPronunciationExerciseModule,
+    PhoneAssessmentModule,
+    CardPronunciationResultModule,
+    CardLearnedModule,
+    WordAssessmentModule,
+    ParticipantInCourseModule,
+    StaffManagementModule,
+    UserManagementModule,
+    BackupModule
   ],
-  controllers: [UserController, RoleController, StaffProfileController, AuthController, PronunciationExerciseController, IdentificationExerciseController],
-  providers: [UserService, RoleService, AuthService,PronunciationExerciseService, IdentificationExerciseService],
+  controllers: [UserController, RoleController, StaffProfileController, AuthController, PronunciationExerciseController, BackupController],
+  providers: [UserService, RoleService, AuthService,PronunciationExerciseService],
 })
 export class AppModule { }

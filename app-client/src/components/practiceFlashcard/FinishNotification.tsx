@@ -10,12 +10,12 @@ const FinishNotification = () => {
                 <img src={robot} alt='robot' className='w-full animate-floating'/>
             </div>
             <p className='font-semibold text-xl mt-3'>
-                You finished flashcards of this folder
+                Bạn đã hoàn thành
             </p>
             <button 
             onClick={()=>navigate(`/folders/flashcard/${folderId}`)}
             className='mt-5 px-4 py-2 rounded-lg bg-violet-600 text-white cursor-pointer font-semibold'>
-                Next
+                Tiếp tục
             </button>
         </div>
     );

@@ -38,7 +38,7 @@ const SearchEpisode = (props: searchEpisodeProps) => {
                 <input 
                     onChange={handleChangeInput}
                     type="text" name="name" id="name-exercise"
-                    placeholder='type to search episode'
+                    placeholder='nhập tên bài học'
                     className='font-semibold w-full outline-none focus:outline-none border-none focus:border-none bg-gray-200 ring-gray-200 p-2 pr-10 md:pr-14 md:p-3 right-1  focus:ring-violet-500 rounded-lg'
                 />
             </div>

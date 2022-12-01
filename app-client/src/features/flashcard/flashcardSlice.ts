@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { asyncCreateFlashcard, asyncGetFlashcardsByFolder, asyncGetPracticeCards } from './flashcardApis';
+import { asyncCreateFlashcard, asyncGetFlashcardsByFolder, asyncGetLearningCardsByFolder, asyncCheckHaveDueCard } from './flashcardApis';
 
 
 interface flashcard{
@@ -43,20 +43,21 @@ const flashcardSlide = createSlice({
                     myFlashcards: action.payload
                 }
             })
-            .addCase(asyncGetPracticeCards.fulfilled, (state,action)=>{
+            .addCase(asyncGetLearningCardsByFolder.fulfilled, (state,action)=>{
                 return {
                     ...state,
                     practices: action.payload
                 }
 
             })
-            .addCase(asyncGetPracticeCards.rejected, (state,action)=>{
+            .addCase(asyncGetLearningCardsByFolder.rejected, (state,action)=>{
                 return {
                     ...state,
                     practices: null
                 }
 
             })
+
             
     }
 })

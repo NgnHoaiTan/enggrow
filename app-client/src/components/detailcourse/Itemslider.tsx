@@ -27,8 +27,8 @@ const Itemslider = (props: typeProps) => {
                     </p>
                     <div className="flex justify-center my-5">
                         <button className='py-2 px-5 text-white font-bold bg-transparent border-2 border-white hover:border-violet-700 duration-100 ease-in rounded-xl'>
-                            <Link to={`${episode.id}`}>
-                                Start
+                            <Link to={`/episode/detail/${episode.id}`}>
+                                Bắt đầu
                             </Link>
                         </button>
                     </div>

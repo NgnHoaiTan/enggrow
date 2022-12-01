@@ -20,7 +20,6 @@ interface identification_exercise {
 interface createPronunciationExercise {
     data: {
         phrase: string,
-        meaning?: string,
         episodeId: number
     }
     accessToken: string
@@ -29,7 +28,7 @@ interface createIdentificationExercise {
     data: {
         true_word: string
         false_word: string,
-        audio: any,
+        file: any,
         episodeId: number
     }
     accessToken: string
@@ -39,7 +38,6 @@ interface updatePronunciationExerciseSubmit {
     id: any
     data: {
         phrase: string,
-        meaning?: string,
         episodeId: number
     }
     accessToken: string
@@ -49,7 +47,7 @@ interface updateIdentificationExerciseSubmit {
     data: {
         true_word: string
         false_word: string,
-        audio?: any,
+        file?: any,
         episodeId: number
     }
     accessToken: string
@@ -185,11 +183,11 @@ export const asyncCreateIdentificationExercise = createAsyncThunk('exercise/asyn
     async (dataSubmit: createIdentificationExercise, { rejectWithValue }) => {
         try {
             const { data, accessToken } = dataSubmit
-            const response = await server.post('pronunciation_exercise',
+            const response = await server.post('identification_exercise',
                 data,
                 {
                     headers: {
-                        "Content-Type": "application/json",
+                        "Content-Type": "multipart/form-data",
                         "Authorization": `Bearer ${accessToken}`
                     }
                 }
@@ -207,11 +205,11 @@ export const asyncUpdateIdentificationExercise = createAsyncThunk('exercise/asyn
     async (dataSubmit: updateIdentificationExerciseSubmit, { rejectWithValue }) => {
         try {
             const { id, data, accessToken } = dataSubmit
-            const response = await server.put(`pronunciation_exercise/${id}`,
+            const response = await server.put(`identification_exercise/${id}`,
                 data,
                 {
                     headers: {
-                        "Content-Type": "application/json",
+                        "Content-Type": "multipart/form-data",
                         "Authorization": `Bearer ${accessToken}`
                     }
                 }
@@ -229,7 +227,7 @@ export const asyncDeleteIdentificationExercise = createAsyncThunk('exercise/asyn
     async (dataSubmit: deleteSubmit, { rejectWithValue }) => {
         try {
             const { id, accessToken } = dataSubmit
-            const response = await server.delete(`pronunciation_exercise/${id}`,
+            const response = await server.delete(`identification_exercise/${id}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -254,7 +252,7 @@ export const asyncGetAllIdentificationExercisesByEpisode = createAsyncThunk('exe
     async (dataSubmit: getbyepisode, { rejectWithValue }) => {
         try {
             const { episodeId, accessToken } = dataSubmit
-            const response = await server.get(`pronunciation_exercise/getbyepisode/${episodeId}`,
+            const response = await server.get(`identification_exercise/getbyepisode/${episodeId}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -276,7 +274,7 @@ export const asyncGetIdentificationExerciseById = createAsyncThunk('exercise/asy
     async (dataSubmit: getbyid, { rejectWithValue }) => {
         try {
             const { id, accessToken } = dataSubmit
-            const response = await server.get(`pronunciation_exercise/${id}`,
+            const response = await server.get(`identification_exercise/${id}`,
                 {
                     headers: {
                         "Content-Type": "application/json",

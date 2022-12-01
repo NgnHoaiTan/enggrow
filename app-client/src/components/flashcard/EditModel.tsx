@@ -38,8 +38,8 @@ const EditModel = (props: EditModelProps) => {
             setData((prev) => ({
                 ...prev,
                 term: card.term,
-                meaning: card.meaning,
-                example: card.example
+                meaning: card.meaning || '',
+                example: card.example || ''
             }))
         }
     }, [card])
@@ -77,20 +77,20 @@ const EditModel = (props: EditModelProps) => {
             onClose={props.onClose}
         >
             <Modal.Header>
-                Update flashcard
+                Cập nhật thẻ từ vựng - Flashcard
             </Modal.Header>
             <Modal.Body>
                 <form onSubmit={handleUpdate}>
                     <div className='flex flex-col pb-5'>
                         <div className="">
-                            <label htmlFor="term" className='font-semibold'>Word</label>
+                            <label htmlFor="term" className='font-semibold'>Từ / Cụm từ</label>
                             <input
                                 onChange={handleChangeInput}
                                 value={data.term}
                                 type="text" name="term" className='mt-2 rounded-md w-full' />
                         </div>
                         <div className="mt-2">
-                            <label htmlFor="term" className='font-semibold'>Meaning</label>
+                            <label htmlFor="term" className='font-semibold'>Nghĩa</label>
                             <textarea
                                 value={data.meaning}
                                 onChange={handleChangeInput} name="meaning" rows={3} className='w-full rounded-md mt-2'>
@@ -99,7 +99,7 @@ const EditModel = (props: EditModelProps) => {
                             </textarea>
                         </div>
                         <div className='mt-2'>
-                            <label htmlFor="meaning" className='font-semibold'>Example</label>
+                            <label htmlFor="meaning" className='font-semibold'>Ví dụ</label>
                             <input
                                 onChange={handleChangeInput}
                                 value={data.example}
@@ -112,13 +112,13 @@ const EditModel = (props: EditModelProps) => {
                         type='button'
                         onClick={props.onClose}
                         className="close-model mr-2 p-2 rounded-md font-semibold bg-white border-2 border-gray-300">
-                            Cancel
+                            Hủy
                         </button>
                         <button
                             type='submit'
                             className='bg-violet-600 text-white font-semibold p-2 rounded-md'
                         >
-                            Update
+                            Cập nhật
                         </button>
                     </div>
 

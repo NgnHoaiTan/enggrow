@@ -8,6 +8,7 @@ import { picturePlanet } from '../common/Image';
 import CreateExercise from '../components/episodeDetail/CreateExercise';
 import EpisodeTool from '../components/episodeDetail/EpisodeTool';
 import ListExercises from '../components/episodeDetail/ListExercises';
+import { getCurrentToken } from '../features/authentication/authSlice';
 import { asyncGetEpisodeById } from '../features/episode/episodeAPIs';
 import { getEpisode } from '../features/episode/episodeSlice';
 import { asyncGetAllIdentificationExercisesByEpisode, asyncGetAllPronunciationExercisesByEpisode } from '../features/exercise/exerciseAPIs';
@@ -20,13 +21,14 @@ const EpisodeDetail = () => {
     const identification_exercises = useAppSelector(getListIdentificatonExercises)
     const pronunciation_exercises = useAppSelector(getListPronunciationExercises)
     const { episodeId } = useParams()
+    const accessToken = useAppSelector(getCurrentToken)
     useEffect(() => {
         const actionGetEpisode = async () => {
             setLoadingEpisode(true)
             try {
                 const dataGet = {
                     id: episodeId,
-                    accessToken: 'accessToken'
+                    accessToken: accessToken
                 }
                 await dispatch(asyncGetEpisodeById(dataGet)).unwrap()
             } catch (error) {
@@ -42,9 +44,8 @@ const EpisodeDetail = () => {
             try {
                 const dataGet = {
                     episodeId: episodeId,
-                    accessToken: 'accessToken'
+                    accessToken: accessToken
                 }
-                await dispatch(asyncGetAllIdentificationExercisesByEpisode(dataGet)).unwrap()
                 await dispatch(asyncGetAllPronunciationExercisesByEpisode(dataGet)).unwrap()
             } catch (error) {
                 console.log(error)
@@ -52,7 +53,7 @@ const EpisodeDetail = () => {
         }
         actionGetExercises()
         setLoadingExercises(false)
-    }, [])
+    }, [episodeId])
     return (
         <div className='relative'>
             <div className='absolute bg-space-1 bg-center w-full h-[160px] md:h-[200px] -z-50'>
@@ -78,10 +79,13 @@ const EpisodeDetail = () => {
                                 </div>
                                 {
                                     episode.video_url &&
-                                    <div className='flex justify-center mt-8 px-3 w-full sm:w-[500px] xl:w-[600px] rounded-lg object-cover video-guide'>
-                                        <video src={episode.video_url} controls className='w-full h-full object-cover'></video>
+                                    <div className='flex justify-center mt-8 px-3 w-full sm:w-[500px] xl:w-[600px] rounded-xl overflow-hidden object-cover video-guide'>
+                                        <video src={episode.video_url} controls className='w-full h-full object-cover rounded-xl'></video>
                                     </div>
                                 }
+                                <div className='mt-5 text-base w-full px-3 sm:w-[500px] md:w-[600px] xl:w-[800px] md:text-lg xl:text-xl text-center'>
+                                    <p>{episode.fundamentals ? episode.fundamentals : ''}</p>
+                                </div>
 
                             </>
                             :
@@ -111,7 +115,6 @@ const EpisodeDetail = () => {
                 <CreateExercise />
                 <ListExercises 
                     pronunciation_exercises={pronunciation_exercises}
-                    identification_exercises={identification_exercises}
                     loadingExercises={loadingExercises} 
                 />
             </div>

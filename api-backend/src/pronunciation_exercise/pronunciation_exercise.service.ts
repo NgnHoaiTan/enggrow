@@ -48,6 +48,7 @@ export class PronunciationExerciseService {
             if(episode) {
                 const exerciseData = {
                     phrase: data.phrase,
+                    meaning: data.meaning,
                     episode: episode
                 }
                 const newExercise = await this.exerciseRepository.save(exerciseData)
@@ -67,6 +68,7 @@ export class PronunciationExerciseService {
         try {
             const exerciseData = {
                 phrase: data.phrase,
+                meaning: data.meaning,
             }
             const newExercise = await this.exerciseRepository.update({id},exerciseData)
             return newExercise

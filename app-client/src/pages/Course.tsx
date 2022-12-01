@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
+import { useAppSelector } from '../app/hooks';
 import { AppDispatch } from '../app/store';
 import Background from '../components/course/Background';
-import CarouselTeacher from '../components/course/CarouselTeacher';
 import ListCourses from '../components/course/ListCourses';
 import Option from '../components/course/Option';
+import { getCurrentToken } from '../features/authentication/authSlice';
 import { asyncGetAllPronunCourses } from '../features/pronunciation_course/pronunCourseAPIs';
 import { getAllCourses } from '../features/pronunciation_course/pronunCourseSlice';
 
@@ -14,6 +15,7 @@ const Course = () => {
     const [search, setSearch] = useSearchParams();
     const dispatch = useDispatch<AppDispatch>()
     const allCourses = useSelector(getAllCourses)
+    const accessToken = useAppSelector(getCurrentToken)
     useEffect(()=>{
         const actionGetAll = async () => {
             try {
@@ -23,7 +25,7 @@ const Course = () => {
                         name: search.get('name'),
                         level: search.get('level')
                     },
-                    accessToken: 'accessToken'
+                    accessToken: accessToken
                 }
                 await dispatch(asyncGetAllPronunCourses(dataSubmit)).unwrap()
 
@@ -46,10 +48,6 @@ const Course = () => {
                 </div>
                 <ListCourses courses={allCourses} loadingCourses={loadingCourses}/>
 
-            </div>
-            {/* top teacher */}
-            <div className="top-teacher">
-                <CarouselTeacher />
             </div>
         </div>
     );

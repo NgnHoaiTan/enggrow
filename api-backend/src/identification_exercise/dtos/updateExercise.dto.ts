@@ -5,6 +5,6 @@ export class updateExerciseDto {
 
     false_word?: string
 
-    audio?: string
+    audio?: any
 
 }

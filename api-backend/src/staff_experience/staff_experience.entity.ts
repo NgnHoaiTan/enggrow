@@ -5,16 +5,16 @@ export class StaffExperience {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({length:50})
     position: string;
 
     @Column('text')
     description: string;
 
-    @Column({type:'datetime' })
+    @Column({type:'date',nullable:true })
     from_time: Date;
 
-    @Column({type:'datetime' })
+    @Column({type:'date',nullable:true })
     to_time: Date;
 
     @CreateDateColumn()
@@ -25,6 +25,5 @@ export class StaffExperience {
 
     @ManyToOne(()=>StaffProfile,(staff_profile)=>staff_profile.staff_experience)
     staff_profile:StaffProfile
-
     
 }

@@ -17,7 +17,8 @@ module.exports = {
         'form-login': '#EDE0C1'
       },
       fontFamily: {
-        Roboto: 'Poppins'
+        Roboto: 'Poppins',
+        Bebas: "'Bebas Neue',cursive"
       },
       fontSize: {
         '16': '16px',
@@ -72,7 +73,7 @@ module.exports = {
       },
       animation: {
         hiddenRemind: 'hiddenRemind 3s ease',
-        showRemind: 'showRemind 4s ease',
+        showRemind: 'showRemind 0.5s ease',
         floating: 'floating 3s ease-in-out infinite',
         wiggle: 'wiggle 1s ease-in-out infinite',
         PopupNotification: 'PopupNotification 0.5s ease-in-out',

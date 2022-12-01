@@ -8,7 +8,10 @@ interface getonebyid {
 }
 interface getall {
     accessToken: string,
-    query?: any
+    query?: {
+        name: string | null,
+        level: string | null
+    }
 }
 
 export const asyncGetAllPronunCourses = createAsyncThunk('pronunciation_course/asyncGetAllPronunCourses',
@@ -17,7 +20,7 @@ export const asyncGetAllPronunCourses = createAsyncThunk('pronunciation_course/a
             const { query, accessToken } = dataSubmit
             const response = await server.get(`pronunciation-practice/getall` +
                 `${query ? 
-                    `?${query.name ? `name=${query.name}` : ''}${query.level ? `&level=${query.level}`:''}`
+                    `${query.name ? `?name=${query.name}` : '?'}${query.level ? `&level=${query.level}`:''}`
                     :
                     ''}`,
                 {

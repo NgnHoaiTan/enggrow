@@ -20,17 +20,9 @@ const CreateExercise = () => {
                     <button
                         onClick={() => setShowFormCreatePronunEx(true)}
                         className='px-3 md:px-4 py-2 md:py-3 text-sm  rounded-lg font-semibold text-white bg-blue-500'>
-                        New Pronunciation exercise
+                        Tạo bài tập
                     </button>
                     <PronunExCreateModel showFormCreate={showFormCreatePronunEx} onClose={handleCloseFormCreatePronunEx} />
-                </div>
-                <div className='ml-3'>
-                    <button
-                        onClick={() => setShowFormCreateIdenEx(true)}
-                        className='px-3 md:px-4 py-2 md:py-3 text-sm rounded-lg font-semibold text-white bg-blue-500'>
-                        New Identification exercise
-                    </button>
-                    <IdenExCreateModel showFormCreate={showFormCreateIdenEx} onClose={handleCloseFormCreateIdenEx} />
                 </div>
             </div>
 

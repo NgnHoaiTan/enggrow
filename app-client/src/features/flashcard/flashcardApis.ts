@@ -23,10 +23,16 @@ interface updateSubmit {
     dataCard: updateFlashcard
     accessToken: string
 }
-interface getCards {
-    folderId: number | string,
+interface deleteSubmit {
+    id: any,
     accessToken: string
 }
+interface getCards {
+    folderId: any,
+    accessToken: string
+}
+
+
 
 
 
@@ -76,24 +82,27 @@ export const asyncUpdateFlashcard = createAsyncThunk('flashcard/asyncUpdateFlash
     }
 })
 
-// export const asyncDeleteFolder = createAsyncThunk('folder/asyncDeleteFolder', async (id: number, { rejectWithValue }) => {
-//     try {
-//         const response = await server.delete(`folder-flashcard/delete/id/${id}`,
-//             {
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                 }
-//             }
+export const asyncDeleteFlashcard = createAsyncThunk('flashcard/asyncDeleteFlashcard',
+    async (submitData: deleteSubmit, { rejectWithValue }) => {
+        try {
+            const { id, accessToken } = submitData
+            const response = await server.delete(`flashcard/delete/${id}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${accessToken}`
+                    }
+                }
 
-//         )
-//         return response.data
-//     } catch (error: any) {
-//         if (!error.response) {
-//             throw error
-//         }
-//         return rejectWithValue(error.response.data)
-//     }
-// })
+            )
+            return response.data
+        } catch (error: any) {
+            if (!error.response) {
+                throw error
+            }
+            return rejectWithValue(error.response.data)
+        }
+    })
 
 export const asyncGetFlashcardsByFolder = createAsyncThunk('flashcard/asyncGetFlashcardsByFolder',
     async (submitData: getCards, { rejectWithValue }) => {
@@ -117,11 +126,11 @@ export const asyncGetFlashcardsByFolder = createAsyncThunk('flashcard/asyncGetFl
         }
 
     })
-export const asyncGetPracticeCards = createAsyncThunk('flashcard/asyncGetPracticeCards',
+export const asyncGetLearningCardsByFolder = createAsyncThunk('flashcard/asyncGetLearningCardsByFolder',
     async (submitData: getCards, { rejectWithValue }) => {
         try {
             const { folderId, accessToken } = submitData
-            const response = await server.get(`flashcard/practice-cards/folder/${folderId}`,
+            const response = await server.get(`flashcard/learning-cards/folder/${folderId}`,
                 {
 
                     headers: {
@@ -140,13 +149,37 @@ export const asyncGetPracticeCards = createAsyncThunk('flashcard/asyncGetPractic
         }
 
     })
-export const asyncPracticeCard = createAsyncThunk('flashcard/asyncPracticeCard',
-    async (submitData: {id: any, grade:number, accessToken: string},{rejectWithValue}) => {
+
+export const asyncCheckHaveDueCard = createAsyncThunk('flashcard/asyncCheckHaveDueCard',
+    async (accessToken: string, { rejectWithValue }) => {
+        try {
+            const response = await server.get(`flashcard/havedue`,
+                {
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${accessToken}`
+                    }
+                }
+
+            )
+            return response.data
+        } catch (error: any) {
+            if (!error.response) {
+                throw error
+            }
+            return rejectWithValue(error.response.data)
+        }
+
+    })
+
+export const asyncLearningCard = createAsyncThunk('flashcard/asyncLearningCard',
+    async (submitData: { id: any, grade: number, accessToken: string }, { rejectWithValue }) => {
         try {
             const { id, grade, accessToken } = submitData
-            const response = await server.put(`flashcard/practice/${id}`,
+            const response = await server.put(`flashcard/learning/${id}`,
                 {
-                    grade:grade
+                    grade: grade
                 },
                 {
 
@@ -165,3 +198,6 @@ export const asyncPracticeCard = createAsyncThunk('flashcard/asyncPracticeCard',
             return rejectWithValue(error.response.data)
         }
     })
+
+
+

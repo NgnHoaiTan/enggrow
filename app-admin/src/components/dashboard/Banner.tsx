@@ -1,18 +1,25 @@
 import React from 'react';
+import { useAppSelector } from '../../app/hooks';
+import { getCurrentUser } from '../../features/authentication/authSlice';
 
 const Banner = () => {
+    const user = useAppSelector(getCurrentUser)
     return (
         <div className='bg-violet-500 w-full rounded-xl h-[150px] sm:h-[200px] md:h-[250px] relative p-5'>
             <div className="welcome-title flex flex-col sm:justify-center items-center sm:items-start h-full">
                 <div className="flex sm:mb-2 z-10">
-                    <h3 className='text-white font-semibold sm:text-2xl lg:text-3xl mr-2'>Welcome back, <span className='font-bold'>Johny</span></h3>
+                    <h3 className='text-white font-semibold sm:text-2xl lg:text-3xl mr-2'>Chào mừng trở lại 
+                        <span className='font-bold ml-2'>
+                            {user.name.split(' ').slice(-1).join(' ')}
+                        </span>
+                    </h3>
                     <div className='w-6 md:w-8 lg:w-9'>
                         <img src='images/wavehand.png' className='w-full animate-wiggle' alt='wavehand' />
                     </div>
 
                 </div>
 
-                <p className='text-white sm:text-xl'>Have a nice day</p>
+                <p className='text-white sm:text-xl'>Chúc một ngày tốt lành</p>
 
             </div>
 

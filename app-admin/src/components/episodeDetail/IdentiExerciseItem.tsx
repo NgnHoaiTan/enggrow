@@ -56,10 +56,10 @@ const IdentiExerciseItem = (props: typeProps) => {
         }
     }
     return (
-        <div className='bg-[#fdfdfd] relative min-w-[120px] text-[#333333] shadow-card py-4 px-5 mr-4 my-2 rounded-lg'>
+        <div className='bg-[#fdfdfd] relative min-w-[120px] text-[#333333] shadow-card py-3 px-4 mr-4 my-2 rounded-lg'>
             <div className=''>
                 <div className="words">
-                    <p className='text-center font-bold text-lg lg:text-lg line-clamp-2'>
+                    <p className='text-center font-semibold'>
                         {exercise.true_word} / {exercise.false_word}
                     </p>
                 </div>

@@ -4,7 +4,8 @@ import { useParams } from 'react-router';
 import { useAppSelector } from '../app/hooks';
 import { AppDispatch } from '../app/store';
 import Overview from '../components/course/Overview';
-import { getCurrentToken } from '../features/authentication/authSlice';
+import { getCurrentToken, getCurrentUser } from '../features/authentication/authSlice';
+import { asyncGetAllMyRegisteredCourse, asyncGetParticipantsByUser } from '../features/participant/participantApis';
 import { asyncGetPronunCourseById } from '../features/pronunciation_course/pronunCourseAPIs';
 import { getCourse } from '../features/pronunciation_course/pronunCourseSlice';
 
@@ -18,11 +19,13 @@ const OverviewCourse = () => {
         const action = async()=>{
             try{
                 setLoadingCourse(true)
-                const dataGet = {
+                let dataGet = {
                     id: courseId,
                     accessToken:accessToken
                 }
                 await dispatch(asyncGetPronunCourseById(dataGet)).unwrap()
+                await dispatch(asyncGetAllMyRegisteredCourse(accessToken)).unwrap()
+                
             }catch(error) {
                 console.log(error)
             }

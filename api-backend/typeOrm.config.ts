@@ -6,22 +6,19 @@ import { Role } from './src/role/role.entity';
 import { Avatar } from './src/avatar/avatar.entity';
 import { StaffProfile } from './src/staff_profile/staff_profile.entity';
 import { StaffExperience } from './src/staff_experience/staff_experience.entity';
-import { Notification } from './src/notification/notification.entity';
-import { SubscriptionPlan } from './src/subscription_plan/subscription_plan.entity';
-import { Feedback } from './src/feedback/feedback.entity';
-import { Achievement } from './src/achievement/achievement.entity';
 import { FolderFlashcard } from './src/folder_flashcard/folder_flashcard.entity';
 import { Flashcard } from './src/flashcard/flashcard.entity';
-import { Transaction } from './src/transaction/transaction.entity';
-import { UserAchievement } from './src/user_achievement/user_achievement.entity';
-import { UserSubscription } from './src/user_subscription/user_subscription.entity';
 import { PronunciationCourse } from './src/pronunciation_course/pronunciation_course.entity';
 import { Episode } from './src/episode/episode.entity';
-import { $npmConfigName1667449606405 } from './migrations/1667449606405-$npm_config_name';
 import { PronunciationExercise } from './src/pronunciation_exercise/pronunciation_exercise.entity';
-import { IdentificationExercise } from './src/identification_exercise/identification_exercise.entity';
-import { $npmConfigName1667634672828 } from './migrations/1667634672828-$npm_config_name';
-import {$npmConfigName1667634795859} from './migrations/1667634795859-$npm_config_name'
+import { CardLearned } from './src/card_learned/card_learned.entity';
+import { CardPronunciationResult } from './src/card_pronunciation_result/card_pronunciation_result.entity';
+import { ResultPronunciationExercise } from './src/result_pronunciation_exercise/result_pronunciation_exercise.entity';
+import { PhoneAssessment } from './src/phone_assessment/phone_assessment.entity';
+import { WordAssessment } from './src/word_assessment/word_assessment.entity';
+import { ParticipantInCourse } from './src/participant_in_course/participant_in_course.entity';
+import { $npmConfigName1669276295725 } from './migrations/1669276295725-$npm_config_name';
+import { $npmConfigName1669350249666 } from './migrations/1669350249666-$npm_config_name';
 
 
 
@@ -36,11 +33,13 @@ export default new DataSource({
    username: configService.get('DBMYSQL_USER'),
    password: '',
    database: configService.get('DBMYSQL_DB'),
-   entities: [User, Role, Avatar, StaffProfile, StaffExperience, Notification, SubscriptionPlan, Feedback,
-      Achievement, FolderFlashcard, Flashcard, Transaction, UserAchievement, UserSubscription,
-      PronunciationCourse, Episode, PronunciationExercise, IdentificationExercise
+   entities: [User, Role, Avatar, StaffProfile, StaffExperience,
+      FolderFlashcard, Flashcard,
+      PronunciationCourse, Episode, PronunciationExercise,
+      CardLearned, CardPronunciationResult, ResultPronunciationExercise,
+      PhoneAssessment, WordAssessment, ParticipantInCourse
    ],
    migrations: [
-      $npmConfigName1667634795859
+      $npmConfigName1669350249666
    ],
 });

@@ -3,3 +3,4 @@ export const picturePlanet = "https://res.cloudinary.com/hoaitan/image/upload/v1
 export const pictureAstronaut = "https://res.cloudinary.com/hoaitan/image/upload/v1666874747/engrow/5700_6_10_oood1z.jpg"
 export const iconWebsite ="https://res.cloudinary.com/hoaitan/image/upload/v1666849385/engrow/logowebsite_sp0mnb.png"
 export const lookfor= "https://res.cloudinary.com/hoaitan/image/upload/v1666966637/engrow/2b286b8-removebg-preview_b2kt9i.png"
+export const greatJob = 'https://res.cloudinary.com/hoaitan/image/upload/v1669014177/engrow/great-removebg-preview_sr6a07.png'

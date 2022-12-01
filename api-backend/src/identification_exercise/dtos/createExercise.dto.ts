@@ -8,8 +8,8 @@ export class createExerciseDto {
     false_word: string
 
     @IsNotEmpty()
-    audio: string
-    
+    audio: any
+
     @IsNotEmpty()
     @IsNumber()
     episodeId: number

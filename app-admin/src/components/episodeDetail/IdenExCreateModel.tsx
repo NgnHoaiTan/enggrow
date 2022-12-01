@@ -15,7 +15,7 @@ const IdenExCreateModel = (props: typeProps) => {
     const [inputData, setInputData] = useState({
         true_word: '',
         false_word: '',
-        audio: '',
+        file: '',
     })
     const [error, setError] = useState('')
     const { episodeId } = useParams()
@@ -28,7 +28,7 @@ const IdenExCreateModel = (props: typeProps) => {
         }))
     }
     const handleInputFile = (e: any) => {
-        const filesFormats = ['audio/wav', 'audio/mp3', 'audio/ogg']
+        const filesFormats = ['audio/wav','audio/mpeg', 'audio/mp3', 'audio/ogg']
         setErrorFile('')
         if (e.target.files[0]) {
             const isRightFormat = filesFormats.includes(e.target.files[0].type)
@@ -46,6 +46,8 @@ const IdenExCreateModel = (props: typeProps) => {
     }
     const handleCreateExercise = async (e: FormSubmitEvent) => {
         e.preventDefault()
+        setError('')
+        setErrorFile('')
         try {
             if (episodeId && parseInt(episodeId)) {
                 const data = {
@@ -86,7 +88,7 @@ const IdenExCreateModel = (props: typeProps) => {
             >
                 <Modal.Header />
                 <Modal.Body>
-                    <form onSubmit={handleCreateExercise}>
+                    <form onSubmit={handleCreateExercise} encType='multipart/form-data'>
                         <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-4">Create new Identification Exercise</h3>
                         <p className='text-red-500'>{error}</p>
                         <div className="flex ">

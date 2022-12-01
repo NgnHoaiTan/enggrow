@@ -37,6 +37,7 @@ const authSlice = createSlice({
                 }
             })
             .addCase(asyncLogin.fulfilled, (state, action)=>{
+                console.log(action)
                 return {
                     ...state,
                     loading:false,

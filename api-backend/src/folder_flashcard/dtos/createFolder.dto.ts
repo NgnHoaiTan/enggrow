@@ -7,8 +7,5 @@ export class createFolderDto {
     name: string;
 
     @IsNotEmpty()
-    description?: string;
-
-    @IsNotEmpty()
     userId: string
 }

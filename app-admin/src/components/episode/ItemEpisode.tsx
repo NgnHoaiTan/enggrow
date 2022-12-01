@@ -31,7 +31,7 @@ const ItemEpisode = (props: EpisodeProps) => {
             <div className="btn flex items-center justify-center mt-2">
                 <button className='px-3 py-2 rounded-xl font-bold text-white bg-gradient-to-r from-[#8E2DE2] to-[#4A00E0]'>
                     <Link to={`/management/episodes/${episode.id}`}>
-                    View episode
+                        Xem chi tiết bài học
                     </Link>
                     
                 </button>

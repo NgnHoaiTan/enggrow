@@ -1,5 +1,6 @@
 import { Episode } from "../episode/episode.entity";
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { ResultPronunciationExercise } from "../result_pronunciation_exercise/result_pronunciation_exercise.entity";
 
 @Entity()
 export class PronunciationExercise {
@@ -9,9 +10,6 @@ export class PronunciationExercise {
     @Column('tinytext', { nullable: false })
     phrase: string;
 
-    @Column('tinytext')
-    meaning: string
-
     @CreateDateColumn()
     created_at: Date;
 
@@ -20,4 +18,7 @@ export class PronunciationExercise {
 
     @ManyToOne(() => Episode, (episode) => episode.pronunciation_exercises, { onDelete: 'CASCADE',nullable:false })
     episode: Episode
+
+    @OneToMany(()=>ResultPronunciationExercise, (result) => result.exercise)
+    result_pronunciation: ResultPronunciationExercise[]
 }

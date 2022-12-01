@@ -1,16 +1,17 @@
 import { Episode } from "../episode/episode.entity";
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+
 
 @Entity()
 export class IdentificationExercise {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({ nullable: false,length:20 })
-    true_word: string
+    @Column({ nullable: false,length:60 })
+    true_option: string
 
-    @Column({ nullable: false,length:20 })
-    false_word: string;
+    @Column({ nullable: false,length:60 })
+    false_option: string;
 
     @Column('tinytext',{nullable:false})
     audio_url:string   
@@ -24,6 +25,7 @@ export class IdentificationExercise {
     @UpdateDateColumn()
     updated_at: Date;
 
-    @ManyToOne(() => Episode, (episode) => episode.identification_exercises, { onDelete: 'CASCADE', nullable:false })
-    episode: Episode
+    // @ManyToOne(() => Episode, (episode) => episode.identification_exercises, { onDelete: 'CASCADE', nullable:false })
+    // episode: Episode
+
 }

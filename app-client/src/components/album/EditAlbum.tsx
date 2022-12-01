@@ -19,7 +19,6 @@ const EditAlbum = (props: EditAlbum) => {
     const { folder } = props
     const [data, setData] = useState({
         name: '',
-        description: ''
     })
     const dispatch = useDispatch<AppDispatch>()
     const accessToken = useAppSelector(getCurrentToken)
@@ -65,26 +64,17 @@ const EditAlbum = (props: EditAlbum) => {
             onClose={props.onClose}
         >
             <Modal.Header>
-                Update Folder
+                Cập nhật thư mục
             </Modal.Header>
             <Modal.Body>
                 <form onSubmit={handleUpdate}>
                     <div className='flex flex-col pb-5'>
                         <div className="">
-                            <label htmlFor="name" className='font-semibold'>Name</label>
+                            <label htmlFor="name" className='font-semibold'>Tên</label>
                             <input
                                 onChange={handleChangeInput}
                                 value={data.name}
                                 type="text" name="name" className='mt-2 rounded-md w-full' />
-                        </div>
-                        <div className="mt-2">
-                            <label htmlFor="description" className='font-semibold'>Description</label>
-                            <textarea
-                                value={data.description}
-                                onChange={handleChangeInput} name="description" rows={3} className='w-full rounded-md mt-2'>
-
-
-                            </textarea>
                         </div>
                     
                     </div>
@@ -93,13 +83,13 @@ const EditAlbum = (props: EditAlbum) => {
                             type='button'
                             onClick={props.onClose}
                             className="close-model mr-2 p-2 rounded-md font-semibold bg-white border-2 border-gray-300">
-                            Cancel
+                            Hủy
                         </button>
                         <button
                             type='submit'
                             className='bg-violet-600 text-white font-semibold p-2 rounded-md'
                         >
-                            Update
+                            Cập nhật
                         </button>
                     </div>
 

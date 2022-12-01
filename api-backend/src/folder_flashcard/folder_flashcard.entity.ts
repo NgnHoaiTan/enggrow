@@ -6,12 +6,8 @@ export class FolderFlashcard {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({nullable: false, length: 100})
+    @Column({nullable: false, length: 50})
     name: string;
-
-    @Column({nullable:true})
-    description: string
-
     
     @CreateDateColumn()
     created_at: Date;
@@ -19,8 +15,6 @@ export class FolderFlashcard {
     @UpdateDateColumn()
     updated_at: Date;
 
-    @Column('int',{default:0})
-    progress: number
 
     @ManyToOne(()=>User, (user)=>user.folder_flashcard,{nullable:false, eager:true, onDelete: 'CASCADE'})
     user: User

@@ -29,9 +29,7 @@ export class IdentificationExerciseService {
     }
     async getExerciseById(exerciseId: number) {
         try {
-            const exercise = await this.exerciseRepository.createQueryBuilder('exercise')
-                    .where('identification_exercise.id = :id',{id: exerciseId})
-                    .getOne()
+            const exercise = await this.exerciseRepository.findOneBy({id:exerciseId})
             return exercise
         } catch (error) {
             if (!error.status) {
@@ -40,12 +38,16 @@ export class IdentificationExerciseService {
             throw new HttpException(error.message, error.status)
         }
     }
-    async createIdentificationExercise(data: any) {
+    async createIdentificationExercise(data: createExerciseDto) {
         try {
+            
             const episode = await this.episodeSerive.getEpisodeById(data.episodeId)
             if(episode) {
                 const exerciseData = {
-
+                    true_word:data.true_word,
+                    false_word: data.false_word,
+                    audio_url: data.audio.secure_url,
+                    audio_id: data.audio.public_id,
                     episode: episode
                 }
                 const newExercise = await this.exerciseRepository.save(exerciseData)
@@ -61,15 +63,22 @@ export class IdentificationExerciseService {
             throw new HttpException(error.message, error.status)
         }
     }
-    async updateIdentificationExercise(data: any, id: number) {
+    async updateIdentificationExercise(data: updateExerciseDto, id: number) {
         try {
-            const exerciseData = {
-                true_word: data.true_word,
-                false_word: data.false_word,
-
+            const oldExercise = await this.getExerciseById(id)
+            if(oldExercise) {
+                const exerciseData = {
+                    true_word: data.true_word,
+                    false_word: data.false_word,
+                    audio_url: data.audio ? data.audio.secure_url : oldExercise.audio_url,
+                    audio_id: data.audio ? data.audio.public_id : oldExercise.audio_id,
+                }
+                const newExercise = await this.exerciseRepository.update({id},exerciseData)
+                return newExercise
+            }else{
+                throw new NotFoundException('exercise is invalid')
             }
-            const newExercise = await this.exerciseRepository.update({id},exerciseData)
-            return newExercise
+            
             
         } catch (error) {
             if (!error.status) {

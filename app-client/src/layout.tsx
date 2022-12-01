@@ -13,15 +13,16 @@ const Layout = (props: any) => {
     const dispatch = useDispatch<AppDispatch>()
     useEffect(() => {
         if (remindPractice) {
-            setShowRemind(true)
+            const timeout = setTimeout(()=>{
+                setShowRemind(()=>true)
+            },2000)
+            // return clearTimeout(timeout)
         }
-        if (remindPractice) {
-            setTimeout(() => {
-                setShowRemind(false)
-                dispatch(resetRemind())
-            }, 60000)
-        }
+       
     }, [remindPractice])
+    const handleCloseRemind=()=>{
+        setShowRemind(false)
+    }
     return (
         <div className='relative'>
             <Navbar />
@@ -29,7 +30,11 @@ const Layout = (props: any) => {
 
             <div className="fixed w-full px-2 sm:w-auto sm:px-0 bottom-0 right-0 sm:right-5 -translate-y-1/2 ">
                 <div className={`${showRemind ? 'animate-showRemind block' : 'opacity-0 duration-1000'}`}>
-                    <RemindPractice />
+                    <RemindPractice 
+                        onClose={handleCloseRemind}
+                        showModel={showRemind}
+                        listRemind={remindPractice}
+                    />
                 </div>
 
             </div>

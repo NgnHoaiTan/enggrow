@@ -5,7 +5,6 @@ import { asyncGetAllPronunciationExercisesByEpisode, asyncGetPronunciationExerci
 interface pronunciation_exercise {
     id: number,
     phrase: string,
-    meaning: string,
     episodeId: number
 }
 interface identification_exercise {

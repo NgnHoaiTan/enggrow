@@ -14,6 +14,6 @@ import { UserModule } from 'src/user/user.module';
   ],
   providers: [FlashcardService],
   controllers: [FlashcardController],
-  exports:[TypeOrmModule]
+  exports:[TypeOrmModule, FlashcardService]
 })
 export class FlashcardModule {}

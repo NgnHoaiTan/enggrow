@@ -8,7 +8,7 @@ export class Episode {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column('nvarchar',{ nullable: false, length:100})
+    @Column('nvarchar',{ nullable: false, length:30})
     name: string;
 
     @Column('tinytext',{ nullable: false})
@@ -17,11 +17,11 @@ export class Episode {
     @Column('text',{nullable:true})
     fundamentals: string
 
-    @Column({nullable: true, default: null})
+    @Column({nullable: true, default: null, length:100})
     video_url: string
 
-    @Column({nullable:true,default: null})
-    video_file_name:string
+    @Column({nullable:true,default: null, length:30})
+    video_id:string
 
     @CreateDateColumn()
     created_at: Date;
@@ -32,9 +32,9 @@ export class Episode {
     @OneToMany(()=>PronunciationExercise,(exercise) => exercise.episode)
     pronunciation_exercises: PronunciationExercise[]
 
-    @OneToMany(()=>IdentificationExercise,(exercise) => exercise.episode)
-    identification_exercises: IdentificationExercise[]
+    // @OneToMany(()=>IdentificationExercise,(exercise) => exercise.episode)
+    // identification_exercises: IdentificationExercise[]
 
-    @ManyToOne(()=>PronunciationCourse,(pronunciation) => pronunciation.episode , {onDelete:'CASCADE'})
+    @ManyToOne(()=>PronunciationCourse,(pronunciation) => pronunciation.episode , {onDelete:'CASCADE', nullable:false})
     pronunciation_course: PronunciationCourse
 }

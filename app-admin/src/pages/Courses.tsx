@@ -3,10 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
+import { useAppSelector } from '../app/hooks';
 import { AppDispatch } from '../app/store';
 import ListCourse from '../components/courses/ListCourse';
 import NewCourses from '../components/courses/NewCourses';
 import Toptool from '../components/courses/Toptool';
+import { getCurrentToken } from '../features/authentication/authSlice';
 import { asyncGetAllPronunCourses, asyncGetNewPronunCourses } from '../features/pronunciation_course/pronunCourseAPIs';
 import { getAllCourses, getNewCourses } from '../features/pronunciation_course/pronunCourseSlice';
 
@@ -17,16 +19,17 @@ const Courses = () => {
     const dispatch = useDispatch<AppDispatch>()
     const allCourses = useSelector(getAllCourses)
     const newCourses = useSelector(getNewCourses)
-
+    const accessToken = useAppSelector(getCurrentToken)
     useEffect(() => {
         const actionGetAll = async () => {
             try {
                 setLoadingAllCourse(true)
                 const dataSubmit = {
                     query: {
-                        name: search.get('name')
+                        name: search.get('name'),
+                        level: search.get('level')
                     },
-                    accessToken: 'accessToken'
+                    accessToken:  accessToken
                 }
                 const getall = await dispatch(asyncGetAllPronunCourses(dataSubmit))
                 unwrapResult(getall)
@@ -39,11 +42,11 @@ const Courses = () => {
         actionGetAll()
         setLoadingAllCourse(false)
     }, [search])
+
     useEffect(() => {
         const actionGetNew = async () => {
             try {
                 setLoadingNewCourse(true)
-                const accessToken = 'accessToken'
                 const getall = await dispatch(asyncGetNewPronunCourses(accessToken))
                 unwrapResult(getall)
 
@@ -63,7 +66,7 @@ const Courses = () => {
                         <Toptool />
                     </div>
                     <div className="content-main">
-                        <ListCourse title={'Result'} loadingAllCourse={loadingAllCourse} allCourses={allCourses} />
+                        <ListCourse title={'Kết quả tìm kiếm'} loadingAllCourse={loadingAllCourse} allCourses={allCourses} />
                     </div>
 
                 </div>
@@ -79,7 +82,7 @@ const Courses = () => {
                 </div>
                 <div className="content-main">
                     <NewCourses loadingNewCourse={loadingNewCourse} newCourses={newCourses} />
-                    <ListCourse title={'All Course'} loadingAllCourse={loadingAllCourse} allCourses={allCourses} />
+                    <ListCourse title={'Tất cả khóa học'} loadingAllCourse={loadingAllCourse} allCourses={allCourses} />
                 </div>
 
             </div>

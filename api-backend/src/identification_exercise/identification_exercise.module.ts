@@ -10,7 +10,7 @@ import { IdentificationExerciseService } from './identification_exercise.service
     TypeOrmModule.forFeature([IdentificationExercise]),
     EpisodeModule
   ],
-  exports:[TypeOrmModule],
+  exports:[TypeOrmModule, IdentificationExerciseService],
   providers:[IdentificationExerciseService],
   controllers: [IdentificationExerciseController]
 })
